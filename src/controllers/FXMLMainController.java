@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -160,30 +161,36 @@ public class FXMLMainController implements Initializable {
         HBox chart = new HBox();
         chart.setMinWidth(250);
         chart.setAlignment(Pos.TOP_LEFT);
-        chart.setSpacing(15);
+        chart.setSpacing(5);
         for (String featureName: mapOfFeatures.keySet()) {
             if (!featureName.equals("tempo") && !featureName.equals("loudness")) {
                 VBox featureVBox = new VBox();
-                featureVBox.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
                 featureVBox.setAlignment(Pos.BOTTOM_CENTER);
                 featureVBox.setSpacing(10);
-                featureVBox.setMinHeight(250);
+                featureVBox.setMinHeight(220);
+                GridPane barPane = new GridPane();
+                barPane.setAlignment(Pos.CENTER);
+                Rectangle fullBar = new Rectangle(40, 200);
+                fullBar.setFill(Color.TRANSPARENT);
                 Rectangle bar = new Rectangle(40, 200 * mapOfFeatures.get(featureName));
-                bar.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                fullBar.setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        bar.setStroke(Color.WHITE);
+                        fullBar.setStroke(Color.WHITE);
                         setFeatureName(featureName);
                     }
                 });
-                bar.setOnMouseExited(new EventHandler<MouseEvent>() {
+                fullBar.setOnMouseExited(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        bar.setStroke(Color.TRANSPARENT);
+                        fullBar.setStroke(Color.TRANSPARENT);
                     }
                 });
-                bar.setFill(Color.ORANGE);
-                featureVBox.getChildren().add(bar);
+                bar.setFill(Color.color(0.05,0.8,0.40));
+                barPane.add(bar, 0, 0);
+                barPane.add(fullBar, 0, 0);
+                GridPane.setValignment(bar, VPos.BOTTOM);
+                featureVBox.getChildren().add(barPane);
                 FlowPane iconPane = new FlowPane();
                 iconPane.setMaxWidth(50);
                 iconPane.setAlignment(Pos.CENTER);
@@ -195,7 +202,6 @@ public class FXMLMainController implements Initializable {
             }
         }
         FlowPane namePane = new FlowPane();
-        namePane.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
         namePane.setAlignment(Pos.CENTER);
         Text name = new Text("");
         name.setFont(Font.font("Segoe UI", 30));
@@ -211,13 +217,12 @@ public class FXMLMainController implements Initializable {
         namePane.setAlignment(Pos.CENTER);
         namePane.setMaxHeight(40);
         namePane.setMaxWidth(250);
-        namePane.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
         Text name = new Text(featureName);
         name.setFont(Font.font("Segoe UI", 30));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
         artistsGrid.getChildren().remove(1);
-        artistsGrid.getChildren().add(namePane);
+        artistsGrid.add(namePane, 0, 1);
     }
 
     void controlShow(){
