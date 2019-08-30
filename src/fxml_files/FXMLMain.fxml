@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #1e2329;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLMainController">
+   <top>
+      <HBox alignment="CENTER_RIGHT" minWidth="400.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="29.0" prefWidth="800.0" spacing="3.0" style="-fx-background-color: #13161a; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="min" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#minimize" />
+            <Button fx:id="max" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#maximize" />
+            <Button fx:id="close" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#close" />
+         </children>
+         <padding>
+            <Insets bottom="2.0" left="3.0" top="1.0" />
+         </padding>
+      </HBox>
+   </top>
+   <center>
+      <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="402.0" prefWidth="173.0" spacing="2.0" style="-fx-background-color: #1B345B;">
+                     <children>
+                        <Button fx:id="artistsBtn" mnemonicParsing="false" onMouseClicked="#showArtistScene" prefHeight="30.0" prefWidth="175.0" text="Artists" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="songsBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="175.0" text="Songs" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="playlistsBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="175.0" text="Playlists" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="meBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="175.0" text="Me" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding>
+                  </VBox>
+                  <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="360.0" prefWidth="625.0">
+                     <children>
+                        <GridPane fx:id="artistScene" prefHeight="471.0" prefWidth="455.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="229.5" minHeight="10.0" prefHeight="44.5" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="444.0" minHeight="10.0" prefHeight="358.5" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <ScrollPane fx:id="artistsScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" GridPane.rowIndex="1">
+                                 <content>
+                                    <GridPane fx:id="artistsGrid" prefHeight="358.0" prefWidth="610.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </GridPane>
+                                 </content></ScrollPane>
+                              <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="625.0" spacing="5.0" style="-fx-background-color: #1B345B;">
+                                 <children>
+                                    <TextField fx:id="artistsText" promptText="Search Artists" style="-fx-background-radius: 20;">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <font>
+                                          <Font name="Segoe UI Light" size="12.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <Button fx:id="searchArtists" mnemonicParsing="false" onMouseClicked="#getArtists" text="Search">
+                                       <font>
+                                          <Font name="Segoe UI" size="12.0" />
+                                       </font></Button>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </StackPane>
+               </children>
+            </HBox>
+         </children>
+      </StackPane>
+   </center>
+   <bottom>
+      <VBox fx:id="controlBox" alignment="CENTER" maxHeight="85.0" minHeight="60.0" prefHeight="69.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="29.0" prefWidth="800.0">
+               <children>
+                  <StackPane prefHeight="31.0" prefWidth="763.0">
+                     <children>
+                        <ProgressBar fx:id="progressBar" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" prefWidth="750.0" progress="0.0" />
+                        <Slider fx:id="slider" maxHeight="14.0" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="14.0" prefWidth="750.0" />
+                     </children>
+                  </StackPane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="800.0" spacing="5.0">
+               <children>
+                  <Button fx:id="prevBtn" mnemonicParsing="false" onMouseClicked="#prev" text="  " textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                  </Button>
+                  <ToggleButton fx:id="playBtn" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#play" text="  " textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                  </ToggleButton>
+                  <Button fx:id="nextBtn" mnemonicParsing="false" onMouseClicked="#next" text="  " textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>

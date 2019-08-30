@@ -1,0 +1,290 @@
+#close {
+    -fx-background-color: #13161a;
+    -fx-background-radius: 0;
+    -fx-border-color: #13161a;
+    -fx-border-width: 0 1 1 0;
+    -fx-background-insets: 0;
+}
+
+#close:hover {
+    -fx-background-color: #D2222D;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+}
+
+#close:pressed {
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+    -fx-scale-z: 1.00
+}
+
+#min {
+    -fx-background-color: #13161a;
+    -fx-background-radius: 0;
+    -fx-border-color: #13161a;
+    -fx-border-width: 0 1 1 0;
+    -fx-background-insets: 0;
+}
+
+#min:hover {
+    -fx-background-color: #FFBF00;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+}
+
+#min:pressed {
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+    -fx-scale-z: 1.00;
+}
+
+#max {
+    -fx-background-color: #13161a;
+    -fx-background-radius:0;
+    -fx-border-color: #13161a;
+    -fx-border-width: 0 1 1 0;
+    -fx-background-insets: 0;
+}
+
+#max:hover {
+    -fx-background-color: #238823;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+}
+
+#max:pressed {
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+    -fx-scale-z: 1.00;
+}
+
+.scroll-pane {
+    -fx-background-color: #13161a;
+}
+
+.scroll-pane .content{
+    -fx-background-color: #13161a;
+    -fx-text-fill: white;
+}
+
+#playBtn {
+    -fx-background-color: null;
+    -fx-background-radius: 15;
+    -fx-border-color: white;
+    -fx-border-width: 0 0 0 0;
+
+}
+
+#playBtn:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+#playBtn:selected {
+    -fx-text-fill: white;
+}
+
+#playBtn:pressed
+{
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+    -fx-scale-z: 1.0;
+}
+#prevBtn {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-border-color: white;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+#prevBtn:hover {
+}
+
+#nextBtn {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-border-color: white;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+#nextBtn:hover {
+}
+
+.slider {
+    -fx-background-radius: 0;
+}
+
+.slider .track {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.slider .thumb {
+    -fx-background-color: white;
+}
+
+.progress-bar .track {
+    -fx-opacity: 0.3;
+    -fx-background-color: #9f9ebf;
+    -fx-background-insets: 3 3 4 3;
+    -fx-background-radius: 2;
+    -fx-padding: 0.75em;}
+
+.progress-bar .bar {
+    -fx-accent: #b7b7ff
+}
+
+.toggle-button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+}
+
+.toggle-button:pressed {
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+    -fx-scale-z: 1.00;
+}
+
+#artistsText {
+    -fx-border-color: white;
+    -fx-border-radius: 20px;
+    -fx-border-width: 0 0 0 0;
+    -fx-background-insets: 0;
+}
+
+
+#searchArtists {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-background-radius:0;
+    -fx-border-width: 1 1 1 1;
+    -fx-background-insets: 0;
+}
+
+#searchArtists:hover{
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#searchArtists:pressed{
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+}
+
+#artistsBtn {
+    -fx-background-color: null;
+    -fx-text-fill: white;
+
+}
+
+#artistsBtn:hover {
+    -fx-background-color: #b3cde0;
+    -fx-text-fill: black;
+}
+
+#artistsBtn:pressed {
+    -fx-scale-x: .95;
+    -fx-scale-y: .95;
+    -fx-scale-z: .95;
+}
+
+#playlistsBtn {
+    -fx-background-color: null;
+    -fx-text-fill: white;
+}
+
+#playlistsBtn:hover {
+    -fx-background-color: #b3cde0;
+    -fx-text-fill: black;
+}
+
+#playlistsBtn:pressed {
+    -fx-scale-x: .95;
+    -fx-scale-y: .95;
+    -fx-scale-z: .95;
+}
+
+
+#songsBtn {
+    -fx-background-color: null;
+    -fx-text-fill: white;
+}
+
+#songsBtn:hover {
+    -fx-background-color: #b3cde0;
+    -fx-text-fill: black;
+}
+
+#songsBtn:pressed {
+    -fx-scale-x: .95;
+    -fx-scale-y: .95;
+    -fx-scale-z: .95;
+}
+
+#meBtn {
+    -fx-background-color: null;
+    -fx-text-fill: white;
+}
+
+#meBtn:hover {
+    -fx-background-color: #b3cde0;
+    -fx-text-fill: black;
+}
+
+#meBtn:pressed {
+    -fx-scale-x: .95;
+    -fx-scale-y: .95;
+    -fx-scale-z: .95;
+}
+
+#artistsScroll {
+    -fx-background-color: null;
+}
+
+#artistsScroll .content {
+    -fx-background-color: null;
+}
+
+.scroll-bar .track{
+    -fx-background-color : transparent;
+    -fx-border-color :transparent;
+    -fx-background-radius : 0;
+    -fx-border-radius: 0;
+}
+
+.scroll-bar .thumb{
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-background-radius : 1em;
+    -fx-border-radius :1em;
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:1 1 1 1;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+
+

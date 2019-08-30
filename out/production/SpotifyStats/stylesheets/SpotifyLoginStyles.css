@@ -1,0 +1,96 @@
+#close {
+    -fx-background-color: #13161a;
+    -fx-background-radius: 0;
+    -fx-border-color: #13161a;
+    -fx-border-width: 0 1 1 0;
+    -fx-background-insets: 0;
+}
+
+#close:hover {
+    -fx-background-color: #D2222D;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+}
+
+#close:pressed {
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+    -fx-scale-z: 1.00
+}
+
+#min {
+    -fx-background-color: #13161a;
+    -fx-background-radius: 0;
+    -fx-border-color: #13161a;
+    -fx-border-width: 0 1 1 0;
+    -fx-background-insets: 0;
+}
+
+#min:hover {
+    -fx-background-color: #FFBF00;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+}
+
+#min:pressed {
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+    -fx-scale-z: 1.00;
+}
+
+#max {
+    -fx-background-color: #13161a;
+    -fx-background-radius:0;
+    -fx-border-color: #13161a;
+    -fx-border-width: 0 1 1 0;
+    -fx-background-insets: 0;
+}
+
+#max:hover {
+    -fx-background-color: #238823;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+}
+
+#max:pressed {
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+    -fx-scale-z: 1.00;
+}
+
+#loginButton {
+    -fx-text-fill: black;
+    -fx-background-color: #22b244;
+    -fx-background-radius:20;
+}
+
+#loginButton:hover {
+    -fx-text-fill: white;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+}
+
+#loginButton:pressed {
+    -fx-scale-x: 1.00;
+    -fx-scale-y: 1.00;
+    -fx-scale-z: 1.00;
+}
+
+.text-field {
+    -fx-border-radius: 3;
+    -fx-border-color: #1e2329;
+    -fx-border-width: 0;
+}
+
+.check-box .box{
+    -fx-scale-y: 0.7;
+    -fx-scale-x: 0.7;
+    -fx-background-radius: 0;
+    -fx-border-color: #1e2329;
+    -fx-border-width: 0 0 0 0;
+    -fx-background-insets: 0;
+}
