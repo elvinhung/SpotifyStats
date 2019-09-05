@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class FXMLMainController implements Initializable {
     private boolean controlsHidden = true;
@@ -59,6 +60,7 @@ public class FXMLMainController implements Initializable {
     @FXML private GridPane artistsGrid;
     @FXML private TextField artistsText;
     @FXML private ScrollPane artistsScroll;
+    @FXML private Button artistsBtn;
 
     @FXML
     void mousePressed(MouseEvent event){
@@ -108,7 +110,6 @@ public class FXMLMainController implements Initializable {
             artistsGrid.getChildren().remove(0);
         }
         artistsGrid.setAlignment(Pos.TOP_LEFT);
-        artistsGrid.setBackground(new Background(new BackgroundFill(Color.color(.117, .137, .16), CornerRadii.EMPTY, Insets.EMPTY)));
         HashMap<String, String> artists = API_Data.searchArtists(artistsText.getText());
         int rowInd = 0;
         for (String id: artists.keySet()){
@@ -186,7 +187,7 @@ public class FXMLMainController implements Initializable {
                         fullBar.setStroke(Color.TRANSPARENT);
                     }
                 });
-                bar.setFill(Color.color(0.05,0.8,0.40));
+                bar.setFill(Color.color(.427, .765,.557));
                 barPane.add(bar, 0, 0);
                 barPane.add(fullBar, 0, 0);
                 GridPane.setValignment(bar, VPos.BOTTOM);
@@ -203,13 +204,21 @@ public class FXMLMainController implements Initializable {
         }
         FlowPane namePane = new FlowPane();
         namePane.setAlignment(Pos.CENTER);
-        Text name = new Text("");
-        name.setFont(Font.font("Segoe UI", 30));
+        Text name = new Text(" ");
+        name.setFont(Font.font("Segoe UI", 15));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
+
+        FlowPane followerPane = new FlowPane();
+        followerPane.setAlignment(Pos.CENTER);
+        Text followers = new Text(followerCount + " followers");
+        followers.setFont(Font.font("Segoe UI", 15));
+        followers.setFill(Color.WHITE);
+        followerPane.getChildren().add(followers);
+
         artistsGrid.add(chart, 0, 0);
         artistsGrid.add(namePane, 0, 1);
-        System.out.println(followerCount);
+        artistsGrid.add(followerPane, 1, 0);
     }
 
     void setFeatureName(String featureName) {
@@ -223,6 +232,11 @@ public class FXMLMainController implements Initializable {
         namePane.getChildren().add(name);
         artistsGrid.getChildren().remove(1);
         artistsGrid.add(namePane, 0, 1);
+    }
+
+    @FXML
+    void getTracks() {
+
     }
 
     void controlShow(){

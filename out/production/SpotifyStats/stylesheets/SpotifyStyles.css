@@ -180,16 +180,10 @@
     -fx-scale-y: 1.00;
 }
 
-#artistsBtn {
-    -fx-background-color: null;
-    -fx-text-fill: white;
-
-}
-
 #artistsBtn:hover {
-    -fx-background-color: #b3cde0;
-    -fx-text-fill: black;
+    -fx-font-weight: bold;
 }
+
 
 #artistsBtn:pressed {
     -fx-scale-x: .95;
@@ -197,14 +191,8 @@
     -fx-scale-z: .95;
 }
 
-#playlistsBtn {
-    -fx-background-color: null;
-    -fx-text-fill: white;
-}
-
 #playlistsBtn:hover {
-    -fx-background-color: #b3cde0;
-    -fx-text-fill: black;
+    -fx-font-weight: bold;
 }
 
 #playlistsBtn:pressed {
@@ -214,14 +202,8 @@
 }
 
 
-#songsBtn {
-    -fx-background-color: null;
-    -fx-text-fill: white;
-}
-
-#songsBtn:hover {
-    -fx-background-color: #b3cde0;
-    -fx-text-fill: black;
+#tracksBtn:hover {
+    -fx-font-weight: bold;
 }
 
 #songsBtn:pressed {
@@ -230,14 +212,8 @@
     -fx-scale-z: .95;
 }
 
-#meBtn {
-    -fx-background-color: null;
-    -fx-text-fill: white;
-}
-
 #meBtn:hover {
-    -fx-background-color: #b3cde0;
-    -fx-text-fill: black;
+    -fx-font-weight: bold;
 }
 
 #meBtn:pressed {
@@ -284,6 +260,10 @@
 
 .scroll-bar {
     -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-rotate: 90;
 }
 
 
