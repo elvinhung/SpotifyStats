@@ -273,10 +273,15 @@ public class API_Data {
         return map;
     }
 
-    public static long getArtistData(String id){
-        long num_followers = -1;
+    public static HashMap<String, String> getData(String id, String type){
+        HashMap<String, String> dataMap = new HashMap<String, String>();
         try {
-            URL url = new URL("https://api.spotify.com/v1/artists/" + id);
+            URL url;
+            if (type.equals("artist")) {
+                url = new URL("https://api.spotify.com/v1/artists/" + id);
+            } else {
+                url = new URL("https://api.spotify.com/v1/playlists/" + id);
+            }
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", "Bearer " + accessToken);
@@ -295,14 +300,17 @@ public class API_Data {
                 JSONParser parser = new JSONParser();
                 JSONObject response = (JSONObject) parser.parse(dataString);
                 JSONObject followerObj = (JSONObject) response.get("followers");
-                num_followers = (Long) followerObj.get("total");
+                long followers = (Long) followerObj.get("total");
+                String name = (String ) response.get("name");
+                dataMap.put("name", name);
+                dataMap.put("followers", Long.toString(followers));
             } else {
-                System.out.println("Status: " + status + " - Could not retrieve artist's data for id: " + id);
+                System.out.println("Status: " + status + " - Could not retrieve " + type + " data for id: " + id);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return num_followers;
+        return dataMap;
     }
 
     public static ArrayList<String> getIds(String id, String type){

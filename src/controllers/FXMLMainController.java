@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.istack.internal.Nullable;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
@@ -168,11 +169,11 @@ public class FXMLMainController implements Initializable {
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                    HashMap<String, String> dataMap = API_Data.getData(id, "playlist");
                     ArrayList<String> ids = API_Data.getIds(id, "playlist");
-                    displayStats(API_Data.getAudioFeatures(ids), playlistsGrid);
+                    displayStats(API_Data.getAudioFeatures(ids), playlistsGrid, dataMap);
                 }
             });
-
             playlistsGrid.add(btn, 0, rowInd);
         }
     }
@@ -215,13 +216,13 @@ public class FXMLMainController implements Initializable {
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    long followerCount = API_Data.getArtistData(id);
+                    HashMap<String, String> dataMap = API_Data.getData(id, "artist");
                     ArrayList<String> albumIds = API_Data.getIds(id, "album");
                     ArrayList<String> trackIds = new ArrayList<String>();
                     albumIds.forEach((albumId) -> {
                         trackIds.addAll(API_Data.getIds(albumId, "track"));
                     });
-                    showArtistStats(API_Data.getAudioFeatures(trackIds), followerCount);
+                    displayStats(API_Data.getAudioFeatures(trackIds), artistsGrid, dataMap);
                     //API_Data.getTracks(trackIds);
                 }
             });
@@ -251,7 +252,7 @@ public class FXMLMainController implements Initializable {
         }
     }
 
-    void displayStats(HashMap<String, Double> mapOfFeatures, GridPane grid) {
+    void displayStats(HashMap<String, Double> mapOfFeatures, GridPane grid, HashMap<String, String> dataMap) {
         while (grid.getChildren().size() != 0) {
             grid.getChildren().remove(0);
         }
@@ -303,80 +304,18 @@ public class FXMLMainController implements Initializable {
         }
         FlowPane namePane = new FlowPane();
         namePane.setAlignment(Pos.CENTER);
+        namePane.setMaxHeight(40);
+        namePane.setMaxWidth(250);
         Text name = new Text(" ");
-        name.setFont(Font.font("Segoe UI", 15));
+        name.setFont(Font.font("Segoe UI", 20));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
-        VBox otherFeatures = createOtherFeaturesVBox(mapOfFeatures.get("tempo"), mapOfFeatures.get("loudness"), new Long(100));
+        VBox otherFeatures = createOtherFeaturesVBox(mapOfFeatures.get("tempo"), mapOfFeatures.get("loudness"), dataMap.get("followers"));
 
         featurePane.add(chart, 0, 0);
         featurePane.add(namePane, 0, 1);
         grid.add(featurePane, 0, 0);
         grid.add(otherFeatures, 1, 0);
-    }
-
-    void showArtistStats(HashMap<String, Double> mapOfFeatures, Long followerCount) {
-        // clear artists grid
-        while (artistsGrid.getChildren().size() != 0){
-            artistsGrid.getChildren().remove(0);
-        }
-        GridPane featurePane = new GridPane();
-        featurePane.setAlignment(Pos.CENTER);
-        HBox chart = new HBox();
-        chart.setMinWidth(250);
-        chart.setAlignment(Pos.TOP_LEFT);
-        chart.setSpacing(5);
-        for (String featureName: mapOfFeatures.keySet()) {
-            if (!featureName.equals("tempo") && !featureName.equals("loudness")) {
-                VBox featureVBox = new VBox();
-                featureVBox.setAlignment(Pos.BOTTOM_CENTER);
-                featureVBox.setSpacing(10);
-                featureVBox.setMinHeight(220);
-                GridPane barPane = new GridPane();
-                barPane.setAlignment(Pos.CENTER);
-                Rectangle fullBar = new Rectangle(40, 200);
-                fullBar.setFill(Color.TRANSPARENT);
-                Rectangle bar = new Rectangle(40, 200 * mapOfFeatures.get(featureName));
-                fullBar.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        fullBar.setStroke(Color.WHITE);
-                        setFeatureName(featureName, featurePane);
-                    }
-                });
-                fullBar.setOnMouseExited(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        fullBar.setStroke(Color.TRANSPARENT);
-                    }
-                });
-                bar.setFill(Color.color(.427, .765,.557));
-                barPane.add(bar, 0, 0);
-                barPane.add(fullBar, 0, 0);
-                GridPane.setValignment(bar, VPos.BOTTOM);
-                featureVBox.getChildren().add(barPane);
-                FlowPane iconPane = new FlowPane();
-                iconPane.setMaxWidth(50);
-                iconPane.setAlignment(Pos.CENTER);
-                Label test = new Label("test");
-                test.setTextFill(Color.WHITE);
-                iconPane.getChildren().add(test);
-                featureVBox.getChildren().add(iconPane);
-                chart.getChildren().add(featureVBox);
-            }
-        }
-        FlowPane namePane = new FlowPane();
-        namePane.setAlignment(Pos.CENTER);
-        Text name = new Text(" ");
-        name.setFont(Font.font("Segoe UI", 15));
-        name.setFill(Color.WHITE);
-        namePane.getChildren().add(name);
-        VBox otherFeatures = createOtherFeaturesVBox(mapOfFeatures.get("tempo"), mapOfFeatures.get("loudness"), followerCount);
-
-        featurePane.add(chart, 0, 0);
-        featurePane.add(namePane, 0, 1);
-        artistsGrid.add(featurePane, 0, 0);
-        artistsGrid.add(otherFeatures, 1, 0);
     }
 
     void setFeatureName(String featureName, GridPane gridPane) {
@@ -385,14 +324,14 @@ public class FXMLMainController implements Initializable {
         namePane.setMaxHeight(40);
         namePane.setMaxWidth(250);
         Text name = new Text(featureName);
-        name.setFont(Font.font("Segoe UI", 30));
+        name.setFont(Font.font("Segoe UI", 20));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
         gridPane.getChildren().remove(1);
         gridPane.add(namePane, 0, 1);
     }
 
-    VBox createOtherFeaturesVBox(double tempo, double loudness, long followerCount) {
+    VBox createOtherFeaturesVBox(double tempo, double loudness, String followerCount) {
         VBox otherFeatures = new VBox();
         otherFeatures.setPrefWidth(250);
         otherFeatures.setPrefHeight(500);
