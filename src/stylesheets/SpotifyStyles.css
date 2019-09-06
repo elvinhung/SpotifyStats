@@ -153,29 +153,31 @@
     -fx-scale-z: 1.00;
 }
 
-#artistsText {
+.searchBar {
     -fx-border-color: white;
+    -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-width: 0 0 0 0;
     -fx-background-insets: 0;
 }
 
 
-#searchArtists {
+.searchBtn {
     -fx-background-color: black;
     -fx-text-fill: white;
     -fx-border-color: white;
-    -fx-background-radius:0;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
     -fx-border-width: 1 1 1 1;
     -fx-background-insets: 0;
 }
 
-#searchArtists:hover{
+.searchBtn:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
 }
 
-#searchArtists:pressed{
+.searchBtn:pressed {
     -fx-scale-x: 1.00;
     -fx-scale-y: 1.00;
 }

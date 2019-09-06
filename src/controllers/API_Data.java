@@ -201,7 +201,7 @@ public class API_Data {
         }
     }
 
-    public static HashMap<String,String> searchArtists(String query) {
+    public static HashMap<String, String> search(String query, String type) {
         StringBuilder tempQuery = new StringBuilder();
         char[] queryChars = query.toCharArray();
         for (char c : queryChars){
@@ -213,16 +213,23 @@ public class API_Data {
             }
         }
         String newQuery = tempQuery.toString();
-        HashMap<String, String> artists = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<String, String>();
         try {
-            URL url = new URL("https://api.spotify.com/v1/search?q=" + newQuery +"&type=artist");
+            URL url;
+            if (type.equals("artists")) {
+                url = new URL("https://api.spotify.com/v1/search?q=" + newQuery +"&type=artist");
+            } else if (type.equals("tracks")) {
+                url = new URL("https://api.spotify.com/v1/search?q=" + newQuery +"&type=track&market=US");
+            } else {
+                url = new URL("https://api.spotify.com/v1/search?q=" + newQuery +"&type=playlist");
+            }
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", "Bearer " + accessToken);
             con.setConnectTimeout(5000);
             con.setReadTimeout(5000);
             int status = con.getResponseCode();
-            System.out.println("Status: " + status + " for artist search");
+            System.out.println("Status: " + status + " for " + type + " search");
             if (status == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;
@@ -234,19 +241,36 @@ public class API_Data {
                 String dataString = content.toString();
                 JSONParser parser = new JSONParser();
                 JSONObject response = (JSONObject) parser.parse(dataString);
-                JSONObject artistsObject =  (JSONObject) response.get("artists");
-                JSONArray items = (JSONArray) artistsObject.get("items");
+                JSONObject responseObject =  (JSONObject) response.get(type);
+                JSONArray items = (JSONArray) responseObject.get("items");
                 for (int i = 0; i < items.size(); i++){
                     JSONObject item = (JSONObject) items.get(i);
                     String name = (String) item.get("name");
                     String id = (String) item.get("id");
-                    artists.put(id, name);
+                    if (type.equals("tracks")) {
+                        String artistName = "";
+                        JSONArray artists  = (JSONArray) item.get("artists");
+                        if (artists.size() > 0) {
+                            JSONObject artist = (JSONObject) artists.get(0);
+                            artistName = " - " + (String) artist.get("name");
+                        }
+                        name = name + artistName;
+                    }
+
+                    if (type.equals("playlists")) {
+                        String ownerName = "";
+                        JSONObject owner = (JSONObject) item.get("owner");
+                        ownerName = " - " + (String) owner.get("display_name");
+                        name = name + ownerName;
+                    }
+
+                    map.put(id, name);
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-        return artists;
+        return map;
     }
 
     public static long getArtistData(String id){
@@ -259,7 +283,7 @@ public class API_Data {
             con.setConnectTimeout(5000);
             con.setReadTimeout(5000);
             int status = con.getResponseCode();
-            if (status == 200){
+            if (status == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;
                 StringBuffer content = new StringBuffer();
@@ -275,7 +299,7 @@ public class API_Data {
             } else {
                 System.out.println("Status: " + status + " - Could not retrieve artist's data for id: " + id);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return num_followers;
@@ -287,8 +311,10 @@ public class API_Data {
         try {
             if (type.equals("album")) {
                 url = new URL("https://api.spotify.com/v1/artists/" + id + "/albums");
-            } else {
+            } else if (type.equals("track")) {
                 url = new URL("https://api.spotify.com/v1/albums/" + id + "/tracks");
+            } else {
+                url = new URL("https://api.spotify.com/v1/playlists/" + id + "/tracks");
             }
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
@@ -310,6 +336,9 @@ public class API_Data {
                 JSONArray items = (JSONArray) response.get("items");
                 items.forEach((item) -> {
                     JSONObject itemObj = (JSONObject) item;
+                    if (type.equals("playlist")) {
+                        itemObj = (JSONObject) itemObj.get("track");
+                    }
                     ids.add((String) itemObj.get("id"));
                 });
 

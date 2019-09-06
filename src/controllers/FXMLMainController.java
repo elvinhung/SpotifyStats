@@ -65,6 +65,11 @@ public class FXMLMainController implements Initializable {
     @FXML private GridPane tracksScene;
     @FXML private GridPane tracksGrid;
     @FXML private ScrollPane tracksScroll;
+    @FXML private TextField tracksText;
+    @FXML private GridPane playlistsScene;
+    @FXML private GridPane playlistsGrid;
+    @FXML private ScrollPane playlistsScroll;
+    @FXML private TextField playlistsText;
 
     @FXML
     void mousePressed(MouseEvent event){
@@ -102,15 +107,98 @@ public class FXMLMainController implements Initializable {
     }
 
     @FXML
+    void showPlaylistsScene() {
+        playlistsScene.setVisible(true);
+        tracksScene.setVisible(false);
+        artistScene.setVisible(false);
+    }
+
+    @FXML
     void showArtistScene() {
         artistScene.setVisible(true);
         tracksScene.setVisible(false);
+        playlistsScene.setVisible(false);
     }
 
     @FXML
     void showTracksScene() {
         tracksScene.setVisible(true);
         artistScene.setVisible(false);
+        playlistsScene.setVisible(false);
+    }
+
+    Button createSearchItem(String text, GridPane grid) {
+        Button btn = new Button(text);
+        btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                btn.setStyle("-fx-text-fill: #2994ff; -fx-background-color: #000000; -fx-border-color: #ffffff; -fx-border-width: 1px;  -fx-font-size: 13px");
+            }
+        });
+        btn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                btn.setStyle("-fx-text-fill: white; -fx-background-color: #000000; -fx-border-color: #ffffff; -fx-border-width: 1px;  -fx-font-size: 13px");
+            }
+        });
+        btn.setAlignment(Pos.CENTER_LEFT);
+        btn.setPadding(new Insets(2,0,2,5));
+        btn.setPrefWidth(200);
+        btn.prefWidthProperty().bind(grid.widthProperty().divide(2));
+        btn.setMinHeight(30);
+        btn.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #000000; -fx-border-color: #ffffff; -fx-border-width: 1px; -fx-font-size: 13px; ");
+        Shape status = new Circle(btn.getMinHeight() / 6);
+        status.setFill(Color.LIMEGREEN);
+        btn.setGraphic(status);
+        btn.setGraphicTextGap(5);
+
+        return btn;
+    }
+
+    @FXML
+    void getPlaylists() {
+        while (playlistsGrid.getChildren().size() != 0) {
+            playlistsGrid.getChildren().remove(0);
+        }
+        HashMap<String, String> playlists = API_Data.search(playlistsText.getText(), "playlists");
+        int rowInd = 0;
+        for (String id: playlists.keySet()) {
+            rowInd++;
+            Button btn = createSearchItem(playlists.get(id), tracksGrid);
+            btn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    ArrayList<String> ids = API_Data.getIds(id, "playlist");
+                    displayStats(API_Data.getAudioFeatures(ids), playlistsGrid);
+                }
+            });
+
+            playlistsGrid.add(btn, 0, rowInd);
+        }
+    }
+
+    @FXML
+    void getTracks() {
+        while (tracksGrid.getChildren().size() != 0) {
+            tracksGrid.getChildren().remove(0);
+        }
+        HashMap<String, String> tracks = API_Data.search(tracksText.getText(), "tracks");
+        int rowInd = 0;
+        for (String id: tracks.keySet()){
+            rowInd++;
+            Button btn = createSearchItem(tracks.get(id), tracksGrid);
+            btn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    ArrayList<String> ids = new ArrayList<String>();
+                    ids.add(id);
+                    HashMap<String, Double> map = API_Data.getAudioFeatures(ids);
+                    System.out.println(map.get("tempo") + " BPM");
+                }
+            });
+
+            tracksGrid.add(btn, 0 , rowInd);
+        }
     }
 
     @FXML
@@ -119,7 +207,7 @@ public class FXMLMainController implements Initializable {
             artistsGrid.getChildren().remove(0);
         }
         artistsGrid.setAlignment(Pos.TOP_LEFT);
-        HashMap<String, String> artists = API_Data.searchArtists(artistsText.getText());
+        HashMap<String, String> artists = API_Data.search(artistsText.getText(), "artists");
         int rowInd = 0;
         for (String id: artists.keySet()){
             rowInd++;
@@ -161,6 +249,70 @@ public class FXMLMainController implements Initializable {
             btn.setGraphicTextGap(5);
             artistsGrid.add(btn, 0 , rowInd);
         }
+    }
+
+    void displayStats(HashMap<String, Double> mapOfFeatures, GridPane grid) {
+        while (grid.getChildren().size() != 0) {
+            grid.getChildren().remove(0);
+        }
+
+        GridPane featurePane = new GridPane();
+        featurePane.setAlignment(Pos.CENTER);
+        HBox chart = new HBox();
+        chart.setMinWidth(250);
+        chart.setAlignment(Pos.TOP_LEFT);
+        chart.setSpacing(5);
+        for (String featureName: mapOfFeatures.keySet()) {
+            if (!featureName.equals("tempo") && !featureName.equals("loudness")) {
+                VBox featureVBox = new VBox();
+                featureVBox.setAlignment(Pos.BOTTOM_CENTER);
+                featureVBox.setSpacing(10);
+                featureVBox.setMinHeight(220);
+                GridPane barPane = new GridPane();
+                barPane.setAlignment(Pos.CENTER);
+                Rectangle fullBar = new Rectangle(40, 200);
+                fullBar.setFill(Color.TRANSPARENT);
+                Rectangle bar = new Rectangle(40, 200 * mapOfFeatures.get(featureName));
+                fullBar.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        fullBar.setStroke(Color.WHITE);
+                        setFeatureName(featureName, featurePane);
+                    }
+                });
+                fullBar.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        fullBar.setStroke(Color.TRANSPARENT);
+                    }
+                });
+                bar.setFill(Color.color(.427, .765,.557));
+                barPane.add(bar, 0, 0);
+                barPane.add(fullBar, 0, 0);
+                GridPane.setValignment(bar, VPos.BOTTOM);
+                featureVBox.getChildren().add(barPane);
+                FlowPane iconPane = new FlowPane();
+                iconPane.setMaxWidth(50);
+                iconPane.setAlignment(Pos.CENTER);
+                Label test = new Label("test");
+                test.setTextFill(Color.WHITE);
+                iconPane.getChildren().add(test);
+                featureVBox.getChildren().add(iconPane);
+                chart.getChildren().add(featureVBox);
+            }
+        }
+        FlowPane namePane = new FlowPane();
+        namePane.setAlignment(Pos.CENTER);
+        Text name = new Text(" ");
+        name.setFont(Font.font("Segoe UI", 15));
+        name.setFill(Color.WHITE);
+        namePane.getChildren().add(name);
+        VBox otherFeatures = createOtherFeaturesVBox(mapOfFeatures.get("tempo"), mapOfFeatures.get("loudness"), new Long(100));
+
+        featurePane.add(chart, 0, 0);
+        featurePane.add(namePane, 0, 1);
+        grid.add(featurePane, 0, 0);
+        grid.add(otherFeatures, 1, 0);
     }
 
     void showArtistStats(HashMap<String, Double> mapOfFeatures, Long followerCount) {
@@ -212,9 +364,6 @@ public class FXMLMainController implements Initializable {
                 featureVBox.getChildren().add(iconPane);
                 chart.getChildren().add(featureVBox);
             }
-            if (featureName.equals("tempo")) {
-
-            }
         }
         FlowPane namePane = new FlowPane();
         namePane.setAlignment(Pos.CENTER);
@@ -222,7 +371,6 @@ public class FXMLMainController implements Initializable {
         name.setFont(Font.font("Segoe UI", 15));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
-        System.out.println(mapOfFeatures.get("loudness") + " dB");
         VBox otherFeatures = createOtherFeaturesVBox(mapOfFeatures.get("tempo"), mapOfFeatures.get("loudness"), followerCount);
 
         featurePane.add(chart, 0, 0);
@@ -282,11 +430,6 @@ public class FXMLMainController implements Initializable {
         otherFeatures.getChildren().addAll(tempoPane, loudnessPane, followerPane);
 
         return otherFeatures;
-    }
-
-    @FXML
-    void getTracks() {
-
     }
 
     void controlShow(){
