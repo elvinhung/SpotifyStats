@@ -26,6 +26,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -33,6 +34,7 @@ import javafx.util.Duration;
 
 import javax.swing.*;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -60,7 +62,9 @@ public class FXMLMainController implements Initializable {
     @FXML private GridPane artistsGrid;
     @FXML private TextField artistsText;
     @FXML private ScrollPane artistsScroll;
-    @FXML private Button artistsBtn;
+    @FXML private GridPane tracksScene;
+    @FXML private GridPane tracksGrid;
+    @FXML private ScrollPane tracksScroll;
 
     @FXML
     void mousePressed(MouseEvent event){
@@ -99,9 +103,14 @@ public class FXMLMainController implements Initializable {
 
     @FXML
     void showArtistScene() {
-        artistScene.setAlignment(Pos.TOP_LEFT);
-        artistScene.setDisable(false);
-        artistScene.setOpacity(1);
+        artistScene.setVisible(true);
+        tracksScene.setVisible(false);
+    }
+
+    @FXML
+    void showTracksScene() {
+        tracksScene.setVisible(true);
+        artistScene.setVisible(false);
     }
 
     @FXML
@@ -159,6 +168,8 @@ public class FXMLMainController implements Initializable {
         while (artistsGrid.getChildren().size() != 0){
             artistsGrid.getChildren().remove(0);
         }
+        GridPane featurePane = new GridPane();
+        featurePane.setAlignment(Pos.CENTER);
         HBox chart = new HBox();
         chart.setMinWidth(250);
         chart.setAlignment(Pos.TOP_LEFT);
@@ -178,7 +189,7 @@ public class FXMLMainController implements Initializable {
                     @Override
                     public void handle(MouseEvent event) {
                         fullBar.setStroke(Color.WHITE);
-                        setFeatureName(featureName);
+                        setFeatureName(featureName, featurePane);
                     }
                 });
                 fullBar.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -201,6 +212,9 @@ public class FXMLMainController implements Initializable {
                 featureVBox.getChildren().add(iconPane);
                 chart.getChildren().add(featureVBox);
             }
+            if (featureName.equals("tempo")) {
+
+            }
         }
         FlowPane namePane = new FlowPane();
         namePane.setAlignment(Pos.CENTER);
@@ -208,20 +222,16 @@ public class FXMLMainController implements Initializable {
         name.setFont(Font.font("Segoe UI", 15));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
+        System.out.println(mapOfFeatures.get("loudness") + " dB");
+        VBox otherFeatures = createOtherFeaturesVBox(mapOfFeatures.get("tempo"), mapOfFeatures.get("loudness"), followerCount);
 
-        FlowPane followerPane = new FlowPane();
-        followerPane.setAlignment(Pos.CENTER);
-        Text followers = new Text(followerCount + " followers");
-        followers.setFont(Font.font("Segoe UI", 15));
-        followers.setFill(Color.WHITE);
-        followerPane.getChildren().add(followers);
-
-        artistsGrid.add(chart, 0, 0);
-        artistsGrid.add(namePane, 0, 1);
-        artistsGrid.add(followerPane, 1, 0);
+        featurePane.add(chart, 0, 0);
+        featurePane.add(namePane, 0, 1);
+        artistsGrid.add(featurePane, 0, 0);
+        artistsGrid.add(otherFeatures, 1, 0);
     }
 
-    void setFeatureName(String featureName) {
+    void setFeatureName(String featureName, GridPane gridPane) {
         FlowPane namePane = new FlowPane();
         namePane.setAlignment(Pos.CENTER);
         namePane.setMaxHeight(40);
@@ -230,8 +240,48 @@ public class FXMLMainController implements Initializable {
         name.setFont(Font.font("Segoe UI", 30));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
-        artistsGrid.getChildren().remove(1);
-        artistsGrid.add(namePane, 0, 1);
+        gridPane.getChildren().remove(1);
+        gridPane.add(namePane, 0, 1);
+    }
+
+    VBox createOtherFeaturesVBox(double tempo, double loudness, long followerCount) {
+        VBox otherFeatures = new VBox();
+        otherFeatures.setPrefWidth(250);
+        otherFeatures.setPrefHeight(500);
+
+        String borderStyle = "-fx-border-color: #4d4d4d; -fx-border-width: 1; ";
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        FlowPane followerPane = new FlowPane();
+        followerPane.setPrefHeight(otherFeatures.getPrefHeight() / 3);
+        followerPane.setStyle(borderStyle);
+        followerPane.setAlignment(Pos.CENTER);
+        Text followers = new Text(followerCount + " followers");
+        followers.setFont(Font.font("Segoe UI", 20));
+        followers.setFill(Color.WHITE);
+        followerPane.getChildren().add(followers);
+
+        FlowPane tempoPane = new FlowPane();
+        tempoPane.setPrefHeight(otherFeatures.getPrefHeight() / 3);
+        tempoPane.setStyle(borderStyle);
+        tempoPane.setAlignment(Pos.CENTER);
+        Text tempoText = new Text(Double.valueOf(df.format(tempo)) + " BPM");
+        tempoText.setFont(Font.font("Segoe UI", FontWeight.BOLD,25));
+        tempoText.setFill(Color.WHITE);
+        tempoPane.getChildren().add(tempoText);
+
+        FlowPane loudnessPane = new FlowPane();
+        loudnessPane.setPrefHeight(otherFeatures.getPrefHeight() / 3);
+        loudnessPane.setStyle(borderStyle);
+        loudnessPane.setAlignment(Pos.CENTER);
+        Text loudnessText = new Text(Double.valueOf(df.format(loudness)) + " dB");
+        loudnessText.setFont(Font.font("Segoe UI", FontWeight.BOLD, 25));
+        loudnessText.setFill(Color.WHITE);
+        loudnessPane.getChildren().add(loudnessText);
+
+        otherFeatures.getChildren().addAll(tempoPane, loudnessPane, followerPane);
+
+        return otherFeatures;
     }
 
     @FXML
