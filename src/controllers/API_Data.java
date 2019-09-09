@@ -23,7 +23,7 @@ public class API_Data {
     public static String accessToken = "";
     public static String refreshToken = "";
     public static String requestTokenURL = "https://accounts.spotify.com/api/token";
-    public static String accessURL = "https://accounts.spotify.com/authorize?client_id=" + clientId + "&response_type=code&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback%2F&scope=user-modify-playback-state%20user-read-currently-playing&state=33fFs29kd09";
+    public static String accessURL = "https://accounts.spotify.com/authorize?client_id=" + clientId + "&response_type=code&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback%2F&scope=user-top-read%20user-modify-playback-state%20user-read-currently-playing&state=33fFs29kd09";
     public static String codeToken = "";
     public static String base64idAndSecret = "";
     public static Long refreshTime;
@@ -199,6 +199,103 @@ public class API_Data {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static HashMap<String, String> getUserTopRanked(String type) {
+        HashMap<String, String> topRankedMap = new HashMap<String, String>();
+        try {
+            URL url = new URL("https://api.spotify.com/v1/me/top/" + type);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", "Bearer " + accessToken);
+            con.setConnectTimeout(5000);
+            con.setReadTimeout(5000);
+            int status = con.getResponseCode();
+            if (status == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer content = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                String dataString = content.toString();
+                JSONParser parser = new JSONParser();
+                JSONObject response = (JSONObject) parser.parse(dataString);
+                JSONArray items = (JSONArray) response.get("items");
+                items.forEach(item -> {
+                    JSONObject itemObj = (JSONObject) item;
+                    String name = (String) itemObj.get("name");
+                    String id = (String) itemObj.get("id");
+                    if (type.equals("tracks")) {
+                        String artistsString = "";
+                        JSONArray artists = (JSONArray) itemObj.get("artists");
+                        if (artists.size() > 0) {
+                            artistsString += " - ";
+                            for (int i = 0; i < artists.size(); i++) {
+                                JSONObject artistObj = (JSONObject) artists.get(i);
+                                String artistName = (String) artistObj.get("name");
+                                if (i == 0) {
+                                    artistsString += artistName;
+                                } else {
+                                    artistsString += ", " + artistName;
+                                }
+                            }
+                            name += artistsString;
+                        }
+                    }
+                    topRankedMap.put(id, name);
+                });
+            } else {
+                System.out.println("Status: " + status + " - Could not retrieve user top ranked data");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return topRankedMap;
+    }
+
+    public static HashMap<String, String> getUser() {
+        HashMap<String, String> userMap = new HashMap<String, String>();
+        try {
+            URL url = new URL("https://api.spotify.com/v1/me");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", "Bearer " + accessToken);
+            con.setConnectTimeout(5000);
+            con.setReadTimeout(5000);
+            int status = con.getResponseCode();
+            if (status == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer content = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                String dataString = content.toString();
+                JSONParser parser = new JSONParser();
+                JSONObject response = (JSONObject) parser.parse(dataString);
+                JSONObject followerObj = (JSONObject) response.get("followers");
+                long followers = (Long) followerObj.get("total");
+                JSONArray images = (JSONArray) response.get("images");
+                String imageUrl = "";
+                if (images.size() > 0) {
+                    JSONObject image = (JSONObject) images.get(0);
+                    imageUrl = (String) image.get("url");
+                }
+                String name = (String) response.get("display_name");
+                userMap.put("name", name);
+                userMap.put("url", imageUrl);
+                userMap.put("followers", Long.toString(followers));
+
+            } else {
+                System.out.println("Status: " + status + " - Could not retrieve user data");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userMap;
     }
 
     public static HashMap<String, String> search(String query, String type) {

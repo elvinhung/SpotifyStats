@@ -182,46 +182,16 @@
     -fx-scale-y: 1.00;
 }
 
-#artistsBtn:hover {
+.navBtns {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.navBtns:hover {
     -fx-font-weight: bold;
 }
 
-
-#artistsBtn:pressed {
-    -fx-scale-x: .95;
-    -fx-scale-y: .95;
-    -fx-scale-z: .95;
-}
-
-#playlistsBtn:hover {
-    -fx-font-weight: bold;
-}
-
-#playlistsBtn:pressed {
-    -fx-scale-x: .95;
-    -fx-scale-y: .95;
-    -fx-scale-z: .95;
-}
-
-
-#tracksBtn:hover {
-    -fx-font-weight: bold;
-}
-
-#songsBtn:pressed {
-    -fx-scale-x: .95;
-    -fx-scale-y: .95;
-    -fx-scale-z: .95;
-}
-
-#meBtn:hover {
-    -fx-font-weight: bold;
-}
-
-#meBtn:pressed {
-    -fx-scale-x: .95;
-    -fx-scale-y: .95;
-    -fx-scale-z: .95;
+.navBtns:pressed {
 }
 
 #artistsScroll {

@@ -27,10 +27,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -73,8 +70,14 @@ public class FXMLMainController implements Initializable {
     @FXML private ScrollPane playlistsScroll;
     @FXML private TextField playlistsText;
     @FXML private Text profileName;
-    @FXML private ScrollPane meScene;
+    @FXML private GridPane meScene;
+    @FXML private GridPane meGrid;
     @FXML private Circle profilePicture;
+    @FXML private Button meBtn;
+    @FXML private Button artistsBtn;
+    @FXML private Button tracksBtn;
+    @FXML private Button playlistsBtn;
+    @FXML private Text userFollowers;
 
     @FXML
     void mousePressed(MouseEvent event){
@@ -112,10 +115,20 @@ public class FXMLMainController implements Initializable {
     }
 
     @FXML
+    void showMeScene() {
+        meScene.setVisible(true);
+        playlistsScene.setVisible(false);
+        tracksScene.setVisible(false);
+        artistScene.setVisible(false);
+        fillMeScene();
+    }
+
+    @FXML
     void showPlaylistsScene() {
         playlistsScene.setVisible(true);
         tracksScene.setVisible(false);
         artistScene.setVisible(false);
+        meScene.setVisible(false);
     }
 
     @FXML
@@ -123,6 +136,7 @@ public class FXMLMainController implements Initializable {
         artistScene.setVisible(true);
         tracksScene.setVisible(false);
         playlistsScene.setVisible(false);
+        meScene.setVisible(false);
     }
 
     @FXML
@@ -130,6 +144,51 @@ public class FXMLMainController implements Initializable {
         tracksScene.setVisible(true);
         artistScene.setVisible(false);
         playlistsScene.setVisible(false);
+        meScene.setVisible(false);
+    }
+
+    void fillMeScene() {
+        HashMap<String, String> userMap = API_Data.getUser();
+        HashMap<String, String> userTopRankedArtists = API_Data.getUserTopRanked("artists");
+        HashMap<String, String> userTopRankedTracks = API_Data.getUserTopRanked("tracks");
+        String name = userMap.get("name");
+        String url = userMap.get("url");
+        String followerCount = userMap.get("followers");
+        profileName.setText(name);
+        userFollowers.setText(followerCount + " followers");
+        if (!url.equals("")) {
+            ImagePattern imagePattern = new ImagePattern(new Image(url));
+            profilePicture.setFill(imagePattern);
+        }
+        HBox topArtistsHBox = new HBox();
+        topArtistsHBox.setAlignment(Pos.CENTER_LEFT);
+        topArtistsHBox.setPadding(new Insets(0, 10, 10, 10));
+        TextFlow artistsTextFlow = new TextFlow();
+        artistsTextFlow.setStyle("-fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-padding: 0px 0px 10px 0px; ");
+        Text topArtistsText = new Text("Top Artists");
+        topArtistsText.setStyle("-fx-font-style: Segoe UI; -fx-font-size: 20px;");
+        topArtistsText.setFill(Color.WHITE);
+        artistsTextFlow.getChildren().add(topArtistsText);
+        topArtistsHBox.getChildren().add(artistsTextFlow);
+        meGrid.add(topArtistsHBox, 0, 2);
+        int rowInd = 3;
+        for (String id: userTopRankedArtists.keySet()) {
+            Button artistItem = createSearchItem(userTopRankedArtists.get(id), meGrid);
+            artistItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    showArtistScene();
+                    ArrayList<String> albumIds = API_Data.getIds(id, "album");
+                    ArrayList<String> trackIds = new ArrayList<String>();
+                    albumIds.forEach((albumId) -> {
+                        trackIds.addAll(API_Data.getIds(albumId, "track"));
+                    });
+                    displayStats(API_Data.getAudioFeatures(trackIds), artistsGrid, API_Data.getData(id, "artist"));
+                }
+            });
+            meGrid.add(artistItem, 0, rowInd);
+            rowInd++;
+        }
     }
 
     Button createSearchItem(String text, GridPane grid) {
@@ -340,7 +399,7 @@ public class FXMLMainController implements Initializable {
         otherFeatures.setPrefWidth(250);
         otherFeatures.setPrefHeight(500);
 
-        String borderStyle = "-fx-border-color: #4d4d4d; -fx-border-width: 1; ";
+        String borderStyle = "-fx-border-color: white; -fx-border-width: 1; ";
         DecimalFormat df = new DecimalFormat("#.##");
 
         FlowPane followerPane = new FlowPane();
@@ -439,6 +498,13 @@ public class FXMLMainController implements Initializable {
         stage.setIconified(true);
     }
 
+    void clearBtnStyles() {
+        meBtn.setStyle("");
+        artistsBtn.setStyle("");
+        tracksBtn.setStyle("");
+        playlistsBtn.setStyle("");
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ImageView prevView = new ImageView(prevPng);
@@ -479,5 +545,34 @@ public class FXMLMainController implements Initializable {
         prevBtn.setPrefSize(15,15);
         artistsScroll.setFitToWidth(true);
         artistsGrid.prefHeightProperty().bind(artistsScroll.heightProperty());
+        artistsBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
+        meBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clearBtnStyles();
+                meBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
+            }
+        });
+        artistsBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clearBtnStyles();
+                artistsBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
+            }
+        });
+        tracksBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clearBtnStyles();
+                tracksBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
+            }
+        });
+        playlistsBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clearBtnStyles();
+                playlistsBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
+            }
+        });
     }
 }
