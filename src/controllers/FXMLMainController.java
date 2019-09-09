@@ -23,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -71,6 +72,9 @@ public class FXMLMainController implements Initializable {
     @FXML private GridPane playlistsGrid;
     @FXML private ScrollPane playlistsScroll;
     @FXML private TextField playlistsText;
+    @FXML private Text profileName;
+    @FXML private ScrollPane meScene;
+    @FXML private Circle profilePicture;
 
     @FXML
     void mousePressed(MouseEvent event){
@@ -466,6 +470,8 @@ public class FXMLMainController implements Initializable {
             }
         });
         playBtn.setGraphic(toggleControl);
+        playBtn.setMaxHeight(15);
+        playBtn.setMaxWidth(15);
         playBtn.setPrefSize(20,20);
         nextBtn.setGraphic(nextView);
         nextBtn.setPrefSize(15,15);
