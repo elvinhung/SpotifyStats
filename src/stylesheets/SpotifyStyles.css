@@ -191,9 +191,6 @@
     -fx-font-weight: bold;
 }
 
-.navBtns:pressed {
-}
-
 #artistsScroll {
     -fx-background-color: null;
 }

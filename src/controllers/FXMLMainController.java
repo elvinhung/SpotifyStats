@@ -120,6 +120,7 @@ public class FXMLMainController implements Initializable {
         playlistsScene.setVisible(false);
         tracksScene.setVisible(false);
         artistScene.setVisible(false);
+        clearBtnStyles(meBtn);
         fillMeScene();
     }
 
@@ -129,6 +130,7 @@ public class FXMLMainController implements Initializable {
         tracksScene.setVisible(false);
         artistScene.setVisible(false);
         meScene.setVisible(false);
+        clearBtnStyles(playlistsBtn);
     }
 
     @FXML
@@ -137,6 +139,7 @@ public class FXMLMainController implements Initializable {
         tracksScene.setVisible(false);
         playlistsScene.setVisible(false);
         meScene.setVisible(false);
+        clearBtnStyles(artistsBtn);
     }
 
     @FXML
@@ -145,6 +148,7 @@ public class FXMLMainController implements Initializable {
         artistScene.setVisible(false);
         playlistsScene.setVisible(false);
         meScene.setVisible(false);
+        clearBtnStyles(tracksBtn);
     }
 
     void fillMeScene() {
@@ -160,16 +164,7 @@ public class FXMLMainController implements Initializable {
             ImagePattern imagePattern = new ImagePattern(new Image(url));
             profilePicture.setFill(imagePattern);
         }
-        HBox topArtistsHBox = new HBox();
-        topArtistsHBox.setAlignment(Pos.CENTER_LEFT);
-        topArtistsHBox.setPadding(new Insets(0, 10, 10, 10));
-        TextFlow artistsTextFlow = new TextFlow();
-        artistsTextFlow.setStyle("-fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-padding: 0px 0px 10px 0px; ");
-        Text topArtistsText = new Text("Top Artists");
-        topArtistsText.setStyle("-fx-font-style: Segoe UI; -fx-font-size: 20px;");
-        topArtistsText.setFill(Color.WHITE);
-        artistsTextFlow.getChildren().add(topArtistsText);
-        topArtistsHBox.getChildren().add(artistsTextFlow);
+        HBox topArtistsHBox = createLabel("Top Artists", meGrid);
         meGrid.add(topArtistsHBox, 0, 2);
         int rowInd = 3;
         for (String id: userTopRankedArtists.keySet()) {
@@ -189,6 +184,41 @@ public class FXMLMainController implements Initializable {
             meGrid.add(artistItem, 0, rowInd);
             rowInd++;
         }
+        HBox topTracksHBox = createLabel("Top Tracks", meGrid);
+        meGrid.add(topTracksHBox, 0, rowInd);
+        rowInd++;
+        for (String id: userTopRankedTracks.keySet()) {
+            HashMap<String, String> dataMap = new HashMap<>();
+            dataMap.put("followers", "0");
+            dataMap.put("name", userTopRankedTracks.get(id));
+            Button trackItem = createSearchItem(userTopRankedTracks.get(id), meGrid);
+            trackItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    showTracksScene();
+                    ArrayList<String> trackIds = new ArrayList<String>();
+                    trackIds.add(id);
+                    displayStats(API_Data.getAudioFeatures(trackIds), tracksGrid, dataMap);
+                }
+            });
+            meGrid.add(trackItem, 0, rowInd);
+            rowInd++;
+        }
+    }
+
+    HBox createLabel(String title, GridPane gridPane) {
+        HBox labelHBox = new HBox();
+        labelHBox.setAlignment(Pos.CENTER_LEFT);
+        labelHBox.setPadding(new Insets(10, 10, 10, 5));
+        TextFlow textFlow = new TextFlow();
+        textFlow.prefWidthProperty().bind(gridPane.widthProperty().divide(1.2));
+        textFlow.setStyle("-fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-padding: 10px 0px 10px 5px; ");
+        Text text = new Text(title);
+        text.setFont(Font.font("Segoe UI", 22.0));
+        text.setFill(Color.WHITE);
+        textFlow.getChildren().add(text);
+        labelHBox.getChildren().add(textFlow);
+        return labelHBox;
     }
 
     Button createSearchItem(String text, GridPane grid) {
@@ -208,7 +238,7 @@ public class FXMLMainController implements Initializable {
         btn.setAlignment(Pos.CENTER_LEFT);
         btn.setPadding(new Insets(2,0,2,5));
         btn.setPrefWidth(200);
-        btn.prefWidthProperty().bind(grid.widthProperty().divide(2));
+        btn.prefWidthProperty().bind(grid.widthProperty().divide(1.5));
         btn.setMinHeight(30);
         btn.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #000000; -fx-border-color: #ffffff; -fx-border-width: 1px; -fx-font-size: 13px; ");
         Shape status = new Circle(btn.getMinHeight() / 6);
@@ -254,10 +284,13 @@ public class FXMLMainController implements Initializable {
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                    HashMap<String, String> dataMap = new HashMap<String, String>();
+                    dataMap.put("followers", "0");
+                    dataMap.put("name", "testName");
                     ArrayList<String> ids = new ArrayList<String>();
                     ids.add(id);
                     HashMap<String, Double> map = API_Data.getAudioFeatures(ids);
-                    System.out.println(map.get("tempo") + " BPM");
+                    displayStats(map, tracksGrid, dataMap);
                 }
             });
 
@@ -350,7 +383,7 @@ public class FXMLMainController implements Initializable {
                         fullBar.setStroke(Color.TRANSPARENT);
                     }
                 });
-                bar.setFill(Color.color(.427, .765,.557));
+                bar.setFill(Color.color(.325, .969, .549));
                 barPane.add(bar, 0, 0);
                 barPane.add(fullBar, 0, 0);
                 GridPane.setValignment(bar, VPos.BOTTOM);
@@ -498,11 +531,12 @@ public class FXMLMainController implements Initializable {
         stage.setIconified(true);
     }
 
-    void clearBtnStyles() {
+    void clearBtnStyles(Button btn) {
         meBtn.setStyle("");
         artistsBtn.setStyle("");
         tracksBtn.setStyle("");
         playlistsBtn.setStyle("");
+        btn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
     }
 
     @Override
@@ -546,33 +580,5 @@ public class FXMLMainController implements Initializable {
         artistsScroll.setFitToWidth(true);
         artistsGrid.prefHeightProperty().bind(artistsScroll.heightProperty());
         artistsBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
-        meBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                clearBtnStyles();
-                meBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
-            }
-        });
-        artistsBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                clearBtnStyles();
-                artistsBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
-            }
-        });
-        tracksBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                clearBtnStyles();
-                tracksBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
-            }
-        });
-        playlistsBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                clearBtnStyles();
-                playlistsBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
-            }
-        });
     }
 }

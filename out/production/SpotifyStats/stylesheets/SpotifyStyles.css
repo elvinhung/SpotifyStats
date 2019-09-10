@@ -192,6 +192,7 @@
 }
 
 .navBtns:pressed {
+    -fx-font-weight: normal;
 }
 
 #artistsScroll {
