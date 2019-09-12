@@ -1,9 +1,9 @@
 package controllers;
 
-import com.sun.istack.internal.Nullable;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -39,15 +39,14 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
+
 public class FXMLMainController implements Initializable {
+    private boolean isMeSceneFilled = false;
     private boolean controlsHidden = true;
     private boolean isPressed = false;
     private double x,y = 0;
     private Image playPng = new Image(getClass().getResourceAsStream("../images/play.png"));
     private Image pausePng = new Image(getClass().getResourceAsStream("../images/pause.png"));
-    private Image nextPng = new Image(getClass().getResourceAsStream("../images/next.png"));
-    private Image prevPng = new Image(getClass().getResourceAsStream("../images/prev.png"));
-    private ImageView toggleControl = new ImageView();
     @FXML private ProgressBar progressBar;
     @FXML private Slider slider;
     @FXML private StackPane detector;
@@ -78,6 +77,7 @@ public class FXMLMainController implements Initializable {
     @FXML private Button tracksBtn;
     @FXML private Button playlistsBtn;
     @FXML private Text userFollowers;
+    @FXML private ImageView playImg;
 
     @FXML
     void mousePressed(MouseEvent event){
@@ -87,31 +87,44 @@ public class FXMLMainController implements Initializable {
     @FXML
     void mouseReleased(MouseEvent event){
         isPressed = false;
-        //double position = progressBar.getProgress() * controllers.API_Data.duration;
-        //controllers.API_Data.seek((long)position);
+        double position = progressBar.getProgress() * controllers.API_Data.duration;
+        controllers.API_Data.seek((long)position);
     }
 
     @FXML
     void play(){
-        if (playBtn.isSelected()){
-            toggleControl.setImage(playPng);
-           // controllers.API_Data.action("play");
+        if (API_Data.isPlaying.getText().equals("false")) {
+            playImg.setImage(pausePng);
+            playBtn.setAlignment(Pos.CENTER);
+            controllers.API_Data.action("play");
+            API_Data.isPlaying.setText("true");
         }
         else {
-            toggleControl.setImage(pausePng);
-            //controllers.API_Data.action("pause");
+            playBtn.setAlignment(Pos.CENTER_RIGHT);
+            playImg.setImage(playPng);
+            controllers.API_Data.action("pause");
+            API_Data.isPlaying.setText("false");
         }
+    }
 
+    public void setPlayImg(boolean isPlaying) {
+        if (isPlaying) {
+            playBtn.setAlignment(Pos.CENTER);
+            playImg.setImage(pausePng);
+        } else {
+            playBtn.setAlignment(Pos.CENTER_RIGHT);
+            playImg.setImage(playPng);
+        }
     }
 
     @FXML
     void next(){
-        //controllers.API_Data.action("next");
+        controllers.API_Data.action("next");
     }
 
     @FXML
     void prev(){
-        //controllers.API_Data.action("previous");
+        controllers.API_Data.action("previous");
     }
 
     @FXML
@@ -121,7 +134,10 @@ public class FXMLMainController implements Initializable {
         tracksScene.setVisible(false);
         artistScene.setVisible(false);
         clearBtnStyles(meBtn);
-        fillMeScene();
+        if (!isMeSceneFilled) {
+            fillMeScene();
+            isMeSceneFilled = true;
+        }
     }
 
     @FXML
@@ -155,6 +171,7 @@ public class FXMLMainController implements Initializable {
         HashMap<String, String> userMap = API_Data.getUser();
         HashMap<String, String> userTopRankedArtists = API_Data.getUserTopRanked("artists");
         HashMap<String, String> userTopRankedTracks = API_Data.getUserTopRanked("tracks");
+        HashMap<String, String> userPlaylists = API_Data.getUserPlaylists();
         String name = userMap.get("name");
         String url = userMap.get("url");
         String followerCount = userMap.get("followers");
@@ -189,8 +206,9 @@ public class FXMLMainController implements Initializable {
         rowInd++;
         for (String id: userTopRankedTracks.keySet()) {
             HashMap<String, String> dataMap = new HashMap<>();
-            dataMap.put("followers", "0");
+            dataMap.put("followers", "-1");
             dataMap.put("name", userTopRankedTracks.get(id));
+            dataMap.put("imageUrl", "");
             Button trackItem = createSearchItem(userTopRankedTracks.get(id), meGrid);
             trackItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -204,12 +222,29 @@ public class FXMLMainController implements Initializable {
             meGrid.add(trackItem, 0, rowInd);
             rowInd++;
         }
+        HBox playlistsHBox = createLabel("Playlists", meGrid);
+        meGrid.add(playlistsHBox, 0, rowInd);
+        rowInd++;
+        for (String id: userPlaylists.keySet()) {
+            Button playlistItem = createSearchItem(userPlaylists.get(id), meGrid);
+            playlistItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    showPlaylistsScene();
+                    HashMap<String, String> dataMap = API_Data.getData(id, "playlist");
+                    ArrayList<String> ids = API_Data.getIds(id, "playlist");
+                    displayStats(API_Data.getAudioFeatures(ids), playlistsGrid, dataMap);
+                }
+            });
+            meGrid.add(playlistItem, 0, rowInd);
+            rowInd++;
+        }
     }
 
     HBox createLabel(String title, GridPane gridPane) {
         HBox labelHBox = new HBox();
         labelHBox.setAlignment(Pos.CENTER_LEFT);
-        labelHBox.setPadding(new Insets(10, 10, 10, 5));
+        labelHBox.setPadding(new Insets(10, 10, 15, 5));
         TextFlow textFlow = new TextFlow();
         textFlow.prefWidthProperty().bind(gridPane.widthProperty().divide(1.2));
         textFlow.setStyle("-fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-padding: 10px 0px 10px 5px; ");
@@ -239,14 +274,51 @@ public class FXMLMainController implements Initializable {
         btn.setPadding(new Insets(2,0,2,5));
         btn.setPrefWidth(200);
         btn.prefWidthProperty().bind(grid.widthProperty().divide(1.5));
-        btn.setMinHeight(30);
+        btn.setMinHeight(32);
         btn.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #000000; -fx-border-color: #ffffff; -fx-border-width: 1px; -fx-font-size: 13px; ");
-        Shape status = new Circle(btn.getMinHeight() / 6);
+        Shape status = new Circle(btn.getMinHeight() / 7);
         status.setFill(Color.LIMEGREEN);
         btn.setGraphic(status);
         btn.setGraphicTextGap(5);
 
         return btn;
+    }
+
+    HBox createHeader(String name, String imageUrl, String followers, GridPane grid) {
+        HBox header = new HBox();
+        header.setAlignment(Pos.CENTER_LEFT);
+        header.setSpacing(15.0);
+        header.setPadding(new Insets(50, 0, 10, 0));
+        header.setMinWidth(700);
+//        header.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        Circle profilePicture = new Circle(35.0, Color.DODGERBLUE);
+
+        if (!imageUrl.equals("")) {
+            ImagePattern profilePattern = new ImagePattern(new Image(imageUrl));
+            profilePicture.setFill(profilePattern);
+        }
+
+        VBox textBox = new VBox();
+        textBox.setAlignment(Pos.CENTER_LEFT);
+        textBox.setSpacing(5);
+
+        Text nameText = new Text(name);
+        nameText.setFont(Font.font("Segoe UI", 28.0));
+        nameText.setFill(Color.color(.325, .969, .549));
+        textBox.getChildren().add(nameText);
+
+        if (!followers.equals("-1")) {
+            Text followerText = new Text(followers + " followers");
+            followerText.setFill(Color.WHITE);
+            followerText.setFont(Font.font("Segoe UI", 14.0));
+            textBox.getChildren().add(followerText);
+        }
+
+        header.getChildren().add(profilePicture);
+        header.getChildren().add(textBox);
+
+        return header;
     }
 
     @FXML
@@ -285,8 +357,9 @@ public class FXMLMainController implements Initializable {
                 @Override
                 public void handle(ActionEvent event) {
                     HashMap<String, String> dataMap = new HashMap<String, String>();
-                    dataMap.put("followers", "0");
-                    dataMap.put("name", "testName");
+                    dataMap.put("followers", "-1");
+                    dataMap.put("name", tracks.get(id));
+                    dataMap.put("imageUrl", "");
                     ArrayList<String> ids = new ArrayList<String>();
                     ids.add(id);
                     HashMap<String, Double> map = API_Data.getAudioFeatures(ids);
@@ -353,6 +426,12 @@ public class FXMLMainController implements Initializable {
             grid.getChildren().remove(0);
         }
 
+        String nameString = dataMap.get("name");
+        String followerCount = dataMap.get("followers");
+        String imageUrl = dataMap.get("imageUrl");
+
+        HBox header = createHeader(nameString, imageUrl, followerCount, grid);
+
         GridPane featurePane = new GridPane();
         featurePane.setAlignment(Pos.CENTER);
         HBox chart = new HBox();
@@ -406,12 +485,20 @@ public class FXMLMainController implements Initializable {
         name.setFont(Font.font("Segoe UI", 20));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
-        VBox otherFeatures = createOtherFeaturesVBox(mapOfFeatures.get("tempo"), mapOfFeatures.get("loudness"), dataMap.get("followers"));
+        VBox otherFeatures = createOtherFeaturesVBox(mapOfFeatures.get("tempo"), mapOfFeatures.get("loudness"));
 
         featurePane.add(chart, 0, 0);
         featurePane.add(namePane, 0, 1);
-        grid.add(featurePane, 0, 0);
-        grid.add(otherFeatures, 1, 0);
+
+        HBox featureHBox = new HBox();
+        featureHBox.setAlignment(Pos.CENTER);
+        featureHBox.setPadding(new Insets(70,10,10,10));
+        featureHBox.getChildren().add(featurePane);
+        featureHBox.getChildren().add(otherFeatures);
+
+        grid.add(header, 0, 0);
+        grid.add(featureHBox, 0, 1);
+
     }
 
     void setFeatureName(String featureName, GridPane gridPane) {
@@ -427,22 +514,14 @@ public class FXMLMainController implements Initializable {
         gridPane.add(namePane, 0, 1);
     }
 
-    VBox createOtherFeaturesVBox(double tempo, double loudness, String followerCount) {
+    VBox createOtherFeaturesVBox(double tempo, double loudness) {
         VBox otherFeatures = new VBox();
         otherFeatures.setPrefWidth(250);
-        otherFeatures.setPrefHeight(500);
+        otherFeatures.setPrefHeight(350);
 
         String borderStyle = "-fx-border-color: white; -fx-border-width: 1; ";
         DecimalFormat df = new DecimalFormat("#.##");
 
-        FlowPane followerPane = new FlowPane();
-        followerPane.setPrefHeight(otherFeatures.getPrefHeight() / 3);
-        followerPane.setStyle(borderStyle);
-        followerPane.setAlignment(Pos.CENTER);
-        Text followers = new Text(followerCount + " followers");
-        followers.setFont(Font.font("Segoe UI", 20));
-        followers.setFill(Color.WHITE);
-        followerPane.getChildren().add(followers);
 
         FlowPane tempoPane = new FlowPane();
         tempoPane.setPrefHeight(otherFeatures.getPrefHeight() / 3);
@@ -462,7 +541,7 @@ public class FXMLMainController implements Initializable {
         loudnessText.setFill(Color.WHITE);
         loudnessPane.getChildren().add(loudnessText);
 
-        otherFeatures.getChildren().addAll(tempoPane, loudnessPane, followerPane);
+        otherFeatures.getChildren().addAll(tempoPane, loudnessPane);
 
         return otherFeatures;
     }
@@ -512,6 +591,7 @@ public class FXMLMainController implements Initializable {
         API_Data.playbackTimerStarted = false;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
+        System.exit(0);
     }
 
     @FXML
@@ -541,44 +621,41 @@ public class FXMLMainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ImageView prevView = new ImageView(prevPng);
-        ImageView nextView = new ImageView(nextPng);
-        prevView.setFitWidth(22.0);
-        prevView.setFitHeight(22.0);
-        nextView.setFitWidth(22.0);
-        nextView.setFitHeight(22.0);
-        toggleControl.setFitHeight(22.0);
-        toggleControl.setFitWidth(22.0);
-        toggleControl.setImage(playPng);
+        setPlayImg(API_Data.isPlaying.getText().equals("true"));
         progressBar.setMinWidth(slider.getPrefWidth());
         progressBar.setMaxWidth(slider.getPrefWidth());
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             progressBar.setProgress(newValue.doubleValue() / 100.0);
         });
-        /*controllers.API_Data.progressOfSong.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
+        API_Data.progressOfSong.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!isPressed) {
-                slider.setValue(Double.valueOf(controllers.API_Data.progressOfSong.getText()) * 100.0);
+                slider.setValue(Double.valueOf(API_Data.progressOfSong.getText()) * 100.0);
             }
         });
-        */ //testing
 
+        API_Data.isPlaying.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            setPlayImg(API_Data.isPlaying.getText().equals("true"));
+        });
         artistsText.addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
             if (ev.getCode() == KeyCode.ENTER){
                 getArtists();
                 ev.consume();
             }
         });
-        playBtn.setGraphic(toggleControl);
-        playBtn.setMaxHeight(15);
-        playBtn.setMaxWidth(15);
-        playBtn.setPrefSize(20,20);
-        nextBtn.setGraphic(nextView);
-        nextBtn.setPrefSize(15,15);
-        prevBtn.setGraphic(prevView);
-        prevBtn.setPrefSize(15,15);
+        playlistsText.addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
+            if (ev.getCode() == KeyCode.ENTER){
+                getPlaylists();
+                ev.consume();
+            }
+        });
+        tracksText.addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
+            if (ev.getCode() == KeyCode.ENTER){
+                getTracks();
+                ev.consume();
+            }
+        });
         artistsScroll.setFitToWidth(true);
-        artistsGrid.prefHeightProperty().bind(artistsScroll.heightProperty());
         artistsBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
     }
 }

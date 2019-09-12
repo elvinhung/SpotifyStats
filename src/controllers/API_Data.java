@@ -23,7 +23,7 @@ public class API_Data {
     public static String accessToken = "";
     public static String refreshToken = "";
     public static String requestTokenURL = "https://accounts.spotify.com/api/token";
-    public static String accessURL = "https://accounts.spotify.com/authorize?client_id=" + clientId + "&response_type=code&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback%2F&scope=user-top-read%20user-modify-playback-state%20user-read-currently-playing&state=33fFs29kd09";
+    public static String accessURL = "https://accounts.spotify.com/authorize?client_id=" + clientId + "&response_type=code&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback%2F&scope=user-top-read%20playlist-read-private%20user-modify-playback-state%20user-read-currently-playing&state=33fFs29kd09";
     public static String codeToken = "";
     public static String base64idAndSecret = "";
     public static Long refreshTime;
@@ -35,6 +35,7 @@ public class API_Data {
     public static Label loginFailure = new Label();
     public static Label mainScene = new Label();
     public static Label progressOfSong = new Label();
+    public static Label isPlaying = new Label();
 
 
     public static int requestAccessToken(){
@@ -148,7 +149,6 @@ public class API_Data {
 
     public static void seek(long pos){
         try {
-            System.out.println(pos);
             String position = String.valueOf(pos);
             URL url = new URL("https://api.spotify.com/v1/me/player/seek?position_ms=" + position);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -190,9 +190,16 @@ public class API_Data {
                 progress = ((Long) response.get("progress_ms")).doubleValue();
                 JSONObject item = (JSONObject) response.get("item");
                 duration = ((Long) item.get("duration_ms")).doubleValue();
-
+                boolean isPlayingBool = (Boolean) response.get("is_playing");
+                if (isPlayingBool) {
+                    isPlaying.setText("true");
+                } else {
+                    isPlaying.setText("false");
+                }
                 double percentage = progress / duration;
                 progressOfSong.setText(String.valueOf(percentage));
+            } else if (status == 204) {
+                isPlaying.setText("false");
             } else {
                 System.out.println("failed to get playback state with status: " + status);
             }
@@ -253,6 +260,43 @@ public class API_Data {
             e.printStackTrace();
         }
         return topRankedMap;
+    }
+
+    public static HashMap<String, String> getUserPlaylists() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        try {
+            URL url = new URL("https://api.spotify.com/v1/me/playlists");
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", "Bearer " + accessToken);
+            con.setConnectTimeout(5000);
+            con.setReadTimeout(5000);
+            int status = con.getResponseCode();
+            System.out.println("Status: " + status + " for user playlists");
+            if (status == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer content = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                String dataString = content.toString();
+                JSONParser parser = new JSONParser();
+                JSONObject response = (JSONObject) parser.parse(dataString);
+                JSONArray items = (JSONArray) response.get("items");
+                for (int i = 0; i < items.size(); i++){
+                    JSONObject item = (JSONObject) items.get(i);
+                    String name = (String) item.get("name");
+                    String id = (String) item.get("id");
+                    map.put(id, name);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return map;
     }
 
     public static HashMap<String, String> getUser() {
@@ -399,8 +443,15 @@ public class API_Data {
                 JSONObject followerObj = (JSONObject) response.get("followers");
                 long followers = (Long) followerObj.get("total");
                 String name = (String ) response.get("name");
+                JSONArray images = (JSONArray) response.get("images");
+                String imageUrl = "";
+                if (images.size() > 0) {
+                    JSONObject image = (JSONObject) images.get(0);
+                    imageUrl = (String) image.get("url");
+                }
                 dataMap.put("name", name);
                 dataMap.put("followers", Long.toString(followers));
+                dataMap.put("imageUrl", imageUrl);
             } else {
                 System.out.println("Status: " + status + " - Could not retrieve " + type + " data for id: " + id);
             }

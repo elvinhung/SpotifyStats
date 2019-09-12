@@ -7,6 +7,8 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -19,13 +21,34 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #1e2329;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLMainController">
+<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2a436e;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLMainController">
    <top>
       <HBox alignment="CENTER_RIGHT" minWidth="400.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="29.0" prefWidth="800.0" spacing="3.0" style="-fx-background-color: #13161a; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="min" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#minimize" />
-            <Button fx:id="max" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#maximize" />
-            <Button fx:id="close" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#close" />
+            <Button fx:id="min" alignment="CENTER" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#minimize" prefHeight="25.0" prefWidth="25.0">
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/minimize.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="max" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#maximize" prefHeight="25.0" prefWidth="25.0">
+               <graphic>
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/maximize.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="close" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onMouseReleased="#close" prefHeight="25.0" prefWidth="25.0">
+               <graphic>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/close.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
          </children>
          <padding>
             <Insets bottom="2.0" left="3.0" top="1.0" />
@@ -35,22 +58,42 @@
    <bottom>
       <VBox fx:id="controlBox" alignment="CENTER" maxHeight="85.0" minHeight="60.0" prefHeight="69.0" prefWidth="800.0" style="-fx-background-color: #13161a; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="800.0" spacing="5.0">
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="800.0" spacing="10.0">
                <children>
-                  <Button fx:id="prevBtn" mnemonicParsing="false" onMouseClicked="#prev" text="  " textFill="WHITE">
+                  <Button fx:id="prevBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onMouseClicked="#prev" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" text="  " textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI" size="12.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/prev.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <ToggleButton fx:id="playBtn" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#play" text="  " textFill="WHITE">
+                  <ToggleButton fx:id="playBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 20; -fx-background-radius: 20;" text="  " textFill="WHITE">
                      <font>
                         <Font name="Segoe UI" size="12.0" />
                      </font>
+                     <graphic>
+                        <ImageView fx:id="playImg" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/play.png" />
+                           </image></ImageView>
+                     </graphic>
                   </ToggleButton>
-                  <Button fx:id="nextBtn" mnemonicParsing="false" onMouseClicked="#next" text="  " textFill="WHITE">
+                  <Button fx:id="nextBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onMouseClicked="#next" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" text="  " textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI" size="12.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/next.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children>
                <opaqueInsets>
@@ -76,7 +119,7 @@
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_CENTER" maxWidth="150.0" minWidth="150.0" prefHeight="402.0" prefWidth="161.0" style="-fx-border-color: #4d4d4d; -fx-border-width: 0 1 0 0;">
+            <VBox alignment="TOP_CENTER" maxWidth="150.0" minWidth="150.0" prefHeight="402.0" prefWidth="161.0" style="-fx-border-color: white; -fx-border-width: 0 1 0 0; -fx-background-color: #516991;">
                <children>
                   <Button fx:id="artistsBtn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onMousePressed="#showArtistScene" prefHeight="30.0" prefWidth="150.0" styleClass="navBtns" text="Artists">
                      <font>
@@ -108,12 +151,12 @@
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="229.5" minHeight="10.0" prefHeight="44.5" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="444.0" minHeight="10.0" prefHeight="358.5" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="358.5" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ScrollPane fx:id="tracksScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" style="-fx-background-color: #292929;" GridPane.rowIndex="1">
+                        <ScrollPane fx:id="tracksScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" style="-fx-background-color: #2a436e;" GridPane.rowIndex="1">
                            <content>
-                              <GridPane fx:id="tracksGrid" prefHeight="356.0" prefWidth="644.0" style="-fx-background-color: #1e2329;">
+                              <GridPane fx:id="tracksGrid" prefHeight="356.0" prefWidth="644.0" style="-fx-background-color: #2a436e;">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -126,7 +169,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="625.0" spacing="5.0" style="-fx-border-color: #4d4d4d; -fx-border-width: 0 0 1 0;">
+                        <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="625.0" spacing="5.0" style="-fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-background-color: #2a436e;">
                            <children>
                               <TextField fx:id="tracksText" promptText="Search Tracks" styleClass="searchBar">
                                  <opaqueInsets>
@@ -141,7 +184,7 @@
                               </TextField>
                               <Button fx:id="searchTracks" mnemonicParsing="false" onMouseClicked="#getTracks" styleClass="searchBtn" text="Search">
                                  <font>
-                                    <Font name="Segoe UI" size="13.0" />
+                                    <Font name="Segoe UI" size="12.0" />
                                  </font>
                               </Button>
                            </children>
@@ -154,18 +197,18 @@
                         </HBox>
                      </children>
                   </GridPane>
-                  <GridPane fx:id="artistScene" prefHeight="402.0" prefWidth="783.0" style="-fx-background-color: transparent;" visible="false">
+                  <GridPane fx:id="artistScene" prefHeight="402.0" prefWidth="783.0" style="-fx-background-color: transparent;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints maxHeight="229.5" minHeight="10.0" prefHeight="44.5" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="444.0" minHeight="10.0" prefHeight="358.5" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="358.5" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ScrollPane fx:id="artistsScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1">
+                        <ScrollPane fx:id="artistsScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" style="-fx-background-color: #2a436e;" GridPane.rowIndex="1">
                            <content>
-                              <GridPane fx:id="artistsGrid" prefHeight="358.0" prefWidth="610.0" style="-fx-background-color: #1e2329;">
+                              <GridPane fx:id="artistsGrid" prefHeight="358.0" prefWidth="610.0" style="-fx-background-color: #2a436e;">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
@@ -178,7 +221,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="625.0" spacing="5.0" style="-fx-background-color: #1e2329; -fx-border-color: #4d4d4d; -fx-border-width: 0 0 1 0;">
+                        <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="625.0" spacing="5.0" style="-fx-background-color: #2a436e; -fx-border-color: white; -fx-border-width: 0 0 1 0;">
                            <children>
                               <TextField fx:id="artistsText" promptText="Search Artists" styleClass="searchBar">
                                  <opaqueInsets>
@@ -193,7 +236,7 @@
                               </TextField>
                               <Button fx:id="searchArtists" mnemonicParsing="false" onMouseClicked="#getArtists" styleClass="searchBtn" text="Search">
                                  <font>
-                                    <Font name="Segoe UI" size="13.0" />
+                                    <Font name="Segoe UI" size="12.0" />
                                  </font>
                               </Button>
                            </children>
@@ -212,12 +255,12 @@
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="229.5" minHeight="10.0" prefHeight="44.5" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="444.0" minHeight="10.0" prefHeight="358.5" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="358.5" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ScrollPane fx:id="playlistsScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1">
+                        <ScrollPane fx:id="playlistsScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" style="-fx-background-color: #2a436e;" GridPane.rowIndex="1">
                            <content>
-                              <GridPane fx:id="playlistsGrid" prefHeight="358.0" prefWidth="610.0" style="-fx-background-color: #1e2329;" visible="false">
+                              <GridPane fx:id="playlistsGrid" prefHeight="358.0" prefWidth="610.0" style="-fx-background-color: #2a436e;">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -230,7 +273,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="625.0" spacing="5.0" style="-fx-background-color: #1e2329; -fx-border-color: #4d4d4d; -fx-border-width: 0 0 1 0;">
+                        <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="625.0" spacing="5.0" style="-fx-background-color: #2a436e; -fx-border-color: white; -fx-border-width: 0 0 1 0;">
                            <children>
                               <TextField fx:id="playlistsText" promptText="Search Playlists" styleClass="searchBar">
                                  <opaqueInsets>
@@ -245,7 +288,7 @@
                               </TextField>
                               <Button fx:id="searchPlaylists" mnemonicParsing="false" onMouseClicked="#getPlaylists" styleClass="searchBtn" text="Search">
                                  <font>
-                                    <Font name="Segoe UI" size="13.0" />
+                                    <Font name="Segoe UI" size="12.0" />
                                  </font>
                               </Button>
                            </children>
@@ -258,7 +301,7 @@
                         </HBox>
                      </children>
                   </GridPane>
-                  <GridPane fx:id="meScene" layoutX="10.0" layoutY="10.0" prefHeight="381.0" prefWidth="646.0">
+                  <GridPane fx:id="meScene" layoutX="10.0" layoutY="10.0" prefHeight="381.0" prefWidth="646.0" visible="false">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
@@ -267,9 +310,9 @@
                         <RowConstraints maxHeight="444.0" minHeight="10.0" prefHeight="320.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ScrollPane fx:id="meScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" style="-fx-background-color: #292929;" GridPane.rowIndex="1">
+                        <ScrollPane fx:id="meScroll" fitToWidth="true" prefHeight="338.0" prefWidth="625.0" style="-fx-background-color: #2a436e;" GridPane.rowIndex="1">
                            <content>
-                              <GridPane fx:id="meGrid" prefHeight="320.0" prefWidth="631.0" style="-fx-background-color: #1e2329;">
+                              <GridPane fx:id="meGrid" prefHeight="320.0" prefWidth="631.0" style="-fx-background-color: #2a436e;">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -282,14 +325,14 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <HBox alignment="CENTER_LEFT" maxHeight="130.0" minHeight="78.0" prefHeight="113.0" prefWidth="646.0" spacing="15.0">
+                        <HBox alignment="CENTER_LEFT" maxHeight="130.0" minHeight="78.0" prefHeight="113.0" prefWidth="646.0" spacing="15.0" style="-fx-border-color: white; -fx-border-width: 0 0 1 0;">
                            <children>
                               <Circle fx:id="profilePicture" fill="DODGERBLUE" radius="35.0" stroke="BLACK" strokeType="INSIDE" HBox.hgrow="NEVER" />
                               <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
                                     <TextFlow maxHeight="37.0" maxWidth="450.0" minHeight="37.0" minWidth="450.0" prefHeight="37.0" prefWidth="450.0">
                                        <children>
-                                          <Text fx:id="profileName" fill="#53f78c" strokeType="OUTSIDE" strokeWidth="0.0" text="Elvin" textAlignment="CENTER">
+                                          <Text fx:id="profileName" fill="#53f78c" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                                              <font>
                                                 <Font name="Segoe UI" size="28.0" />
                                              </font>
