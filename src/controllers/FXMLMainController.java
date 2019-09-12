@@ -1,5 +1,6 @@
 package controllers;
 
+import helperClasses.MusicObject;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
@@ -169,9 +170,9 @@ public class FXMLMainController implements Initializable {
 
     void fillMeScene() {
         HashMap<String, String> userMap = API_Data.getUser();
-        HashMap<String, String> userTopRankedArtists = API_Data.getUserTopRanked("artists");
-        HashMap<String, String> userTopRankedTracks = API_Data.getUserTopRanked("tracks");
-        HashMap<String, String> userPlaylists = API_Data.getUserPlaylists();
+        ArrayList<MusicObject> userTopRankedArtists = API_Data.getUserTopRanked("artists");
+        ArrayList<MusicObject> userTopRankedTracks = API_Data.getUserTopRanked("tracks");
+        ArrayList<MusicObject> userPlaylists = API_Data.getUserPlaylists();
         String name = userMap.get("name");
         String url = userMap.get("url");
         String followerCount = userMap.get("followers");
@@ -184,18 +185,18 @@ public class FXMLMainController implements Initializable {
         HBox topArtistsHBox = createLabel("Top Artists", meGrid);
         meGrid.add(topArtistsHBox, 0, 2);
         int rowInd = 3;
-        for (String id: userTopRankedArtists.keySet()) {
-            Button artistItem = createSearchItem(userTopRankedArtists.get(id), meGrid);
+        for (MusicObject musicObj: userTopRankedArtists) {
+            Button artistItem = createSearchItem(musicObj.name, meGrid);
             artistItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     showArtistScene();
-                    ArrayList<String> albumIds = API_Data.getIds(id, "album");
+                    ArrayList<String> albumIds = API_Data.getIds(musicObj.id, "album");
                     ArrayList<String> trackIds = new ArrayList<String>();
                     albumIds.forEach((albumId) -> {
                         trackIds.addAll(API_Data.getIds(albumId, "track"));
                     });
-                    displayStats(API_Data.getAudioFeatures(trackIds), artistsGrid, API_Data.getData(id, "artist"));
+                    displayStats(API_Data.getAudioFeatures(trackIds), artistsGrid, API_Data.getData(musicObj.id, "artist"));
                 }
             });
             meGrid.add(artistItem, 0, rowInd);
@@ -204,19 +205,15 @@ public class FXMLMainController implements Initializable {
         HBox topTracksHBox = createLabel("Top Tracks", meGrid);
         meGrid.add(topTracksHBox, 0, rowInd);
         rowInd++;
-        for (String id: userTopRankedTracks.keySet()) {
-            HashMap<String, String> dataMap = new HashMap<>();
-            dataMap.put("followers", "-1");
-            dataMap.put("name", userTopRankedTracks.get(id));
-            dataMap.put("imageUrl", "");
-            Button trackItem = createSearchItem(userTopRankedTracks.get(id), meGrid);
+        for (MusicObject musicObj: userTopRankedTracks) {
+            Button trackItem = createSearchItem(musicObj.name, meGrid);
             trackItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     showTracksScene();
                     ArrayList<String> trackIds = new ArrayList<String>();
-                    trackIds.add(id);
-                    displayStats(API_Data.getAudioFeatures(trackIds), tracksGrid, dataMap);
+                    trackIds.add(musicObj.id);
+                    displayStats(API_Data.getAudioFeatures(trackIds), tracksGrid, API_Data.getData(musicObj.id, "track"));
                 }
             });
             meGrid.add(trackItem, 0, rowInd);
@@ -225,14 +222,14 @@ public class FXMLMainController implements Initializable {
         HBox playlistsHBox = createLabel("Playlists", meGrid);
         meGrid.add(playlistsHBox, 0, rowInd);
         rowInd++;
-        for (String id: userPlaylists.keySet()) {
-            Button playlistItem = createSearchItem(userPlaylists.get(id), meGrid);
+        for (MusicObject musicObj: userPlaylists) {
+            Button playlistItem = createSearchItem(musicObj.name, meGrid);
             playlistItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     showPlaylistsScene();
-                    HashMap<String, String> dataMap = API_Data.getData(id, "playlist");
-                    ArrayList<String> ids = API_Data.getIds(id, "playlist");
+                    HashMap<String, String> dataMap = API_Data.getData(musicObj.id, "playlist");
+                    ArrayList<String> ids = API_Data.getIds(musicObj.id, "playlist");
                     displayStats(API_Data.getAudioFeatures(ids), playlistsGrid, dataMap);
                 }
             });
@@ -284,12 +281,19 @@ public class FXMLMainController implements Initializable {
         return btn;
     }
 
-    HBox createHeader(String name, String imageUrl, String followers, GridPane grid) {
+    HBox createHeader(HashMap<String, String> dataMap, GridPane grid) {
+
+        String name = dataMap.get("name");
+        String followers = dataMap.get("followers");
+        String imageUrl = dataMap.get("imageUrl");
+        String artists = dataMap.get("artists");
+
         HBox header = new HBox();
         header.setAlignment(Pos.CENTER_LEFT);
         header.setSpacing(15.0);
+        header.setStyle("-fx-border-color: #b8b8b8; -fx-border-width: 0 0 1 0; ");
         header.setPadding(new Insets(50, 0, 10, 0));
-        header.setMinWidth(700);
+        header.setMinWidth(grid.getWidth());
 //        header.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Circle profilePicture = new Circle(35.0, Color.DODGERBLUE);
@@ -308,11 +312,17 @@ public class FXMLMainController implements Initializable {
         nameText.setFill(Color.color(.325, .969, .549));
         textBox.getChildren().add(nameText);
 
-        if (!followers.equals("-1")) {
+        if (!followers.equals("")) {
             Text followerText = new Text(followers + " followers");
             followerText.setFill(Color.WHITE);
             followerText.setFont(Font.font("Segoe UI", 14.0));
             textBox.getChildren().add(followerText);
+        }
+        if (!artists.equals("")) {
+            Text artistsText = new Text(artists);
+            artistsText.setFill(Color.WHITE);
+            artistsText.setFont(Font.font("Segoe UI", 14.0));
+            textBox.getChildren().add(artistsText);
         }
 
         header.getChildren().add(profilePicture);
@@ -326,11 +336,13 @@ public class FXMLMainController implements Initializable {
         while (playlistsGrid.getChildren().size() != 0) {
             playlistsGrid.getChildren().remove(0);
         }
-        HashMap<String, String> playlists = API_Data.search(playlistsText.getText(), "playlists");
+        ArrayList<MusicObject> playlists = API_Data.search(playlistsText.getText(), "playlists");
         int rowInd = 0;
-        for (String id: playlists.keySet()) {
+        for (MusicObject musicObj: playlists) {
             rowInd++;
-            Button btn = createSearchItem(playlists.get(id), tracksGrid);
+            String id = musicObj.id;
+            String name = musicObj.name;
+            Button btn = createSearchItem(name, playlistsGrid);
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -348,25 +360,20 @@ public class FXMLMainController implements Initializable {
         while (tracksGrid.getChildren().size() != 0) {
             tracksGrid.getChildren().remove(0);
         }
-        HashMap<String, String> tracks = API_Data.search(tracksText.getText(), "tracks");
+        ArrayList<MusicObject> tracks = API_Data.search(tracksText.getText(), "tracks");
         int rowInd = 0;
-        for (String id: tracks.keySet()){
+        for (MusicObject musicObj: tracks){
             rowInd++;
-            Button btn = createSearchItem(tracks.get(id), tracksGrid);
+            Button btn = createSearchItem(musicObj.name, tracksGrid);
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    HashMap<String, String> dataMap = new HashMap<String, String>();
-                    dataMap.put("followers", "-1");
-                    dataMap.put("name", tracks.get(id));
-                    dataMap.put("imageUrl", "");
                     ArrayList<String> ids = new ArrayList<String>();
-                    ids.add(id);
+                    ids.add(musicObj.id);
                     HashMap<String, Double> map = API_Data.getAudioFeatures(ids);
-                    displayStats(map, tracksGrid, dataMap);
+                    displayStats(map, tracksGrid, API_Data.getData(musicObj.id, "track"));
                 }
             });
-
             tracksGrid.add(btn, 0 , rowInd);
         }
     }
@@ -377,11 +384,13 @@ public class FXMLMainController implements Initializable {
             artistsGrid.getChildren().remove(0);
         }
         artistsGrid.setAlignment(Pos.TOP_LEFT);
-        HashMap<String, String> artists = API_Data.search(artistsText.getText(), "artists");
+        ArrayList<MusicObject> artists = API_Data.search(artistsText.getText(), "artists");
         int rowInd = 0;
-        for (String id: artists.keySet()){
+        for (MusicObject musicObj: artists){
             rowInd++;
-            Button btn = new Button(artists.get(id));
+            String id = musicObj.id;
+            String name = musicObj.name;
+            Button btn = createSearchItem(name, artistsGrid);
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -395,28 +404,6 @@ public class FXMLMainController implements Initializable {
                     //API_Data.getTracks(trackIds);
                 }
             });
-            btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    btn.setStyle("-fx-text-fill: #2994ff; -fx-background-color: #000000; -fx-border-color: #ffffff; -fx-border-width: 1px;  -fx-font-size: 13px");
-                }
-            });
-            btn.setOnMouseExited(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    btn.setStyle("-fx-text-fill: white; -fx-background-color: #000000; -fx-border-color: #ffffff; -fx-border-width: 1px;  -fx-font-size: 13px");
-                }
-            });
-            btn.setAlignment(Pos.CENTER_LEFT);
-            btn.setPadding(new Insets(2,0,2,5));
-            btn.setPrefWidth(200);
-            btn.prefWidthProperty().bind(artistsGrid.widthProperty().divide(2));
-            btn.setMinHeight(30);
-            btn.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #000000; -fx-border-color: #ffffff; -fx-border-width: 1px; -fx-font-size: 13px; ");
-            Shape status = new Circle(btn.getMinHeight() / 6);
-            status.setFill(Color.LIMEGREEN);
-            btn.setGraphic(status);
-            btn.setGraphicTextGap(5);
             artistsGrid.add(btn, 0 , rowInd);
         }
     }
@@ -426,17 +413,13 @@ public class FXMLMainController implements Initializable {
             grid.getChildren().remove(0);
         }
 
-        String nameString = dataMap.get("name");
-        String followerCount = dataMap.get("followers");
-        String imageUrl = dataMap.get("imageUrl");
-
-        HBox header = createHeader(nameString, imageUrl, followerCount, grid);
+        HBox header = createHeader(dataMap, grid);
 
         GridPane featurePane = new GridPane();
         featurePane.setAlignment(Pos.CENTER);
         HBox chart = new HBox();
         chart.setMinWidth(250);
-        chart.setAlignment(Pos.TOP_LEFT);
+        chart.setAlignment(Pos.CENTER);
         chart.setSpacing(5);
         for (String featureName: mapOfFeatures.keySet()) {
             if (!featureName.equals("tempo") && !featureName.equals("loudness")) {
@@ -453,7 +436,7 @@ public class FXMLMainController implements Initializable {
                     @Override
                     public void handle(MouseEvent event) {
                         fullBar.setStroke(Color.WHITE);
-                        setFeatureName(featureName, featurePane);
+                        setFeatureName(featureName, featurePane, mapOfFeatures.get(featureName));
                     }
                 });
                 fullBar.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -462,7 +445,8 @@ public class FXMLMainController implements Initializable {
                         fullBar.setStroke(Color.TRANSPARENT);
                     }
                 });
-                bar.setFill(Color.color(.325, .969, .549));
+                //bar.setFill(Color.color(.325, .969, .549));
+                bar.setFill(Color.color(1.0, .522, .18));
                 barPane.add(bar, 0, 0);
                 barPane.add(fullBar, 0, 0);
                 GridPane.setValignment(bar, VPos.BOTTOM);
@@ -492,7 +476,8 @@ public class FXMLMainController implements Initializable {
 
         HBox featureHBox = new HBox();
         featureHBox.setAlignment(Pos.CENTER);
-        featureHBox.setPadding(new Insets(70,10,10,10));
+        featureHBox.setSpacing(20);
+        featureHBox.setPadding(new Insets(80,10,10,10));
         featureHBox.getChildren().add(featurePane);
         featureHBox.getChildren().add(otherFeatures);
 
@@ -501,12 +486,13 @@ public class FXMLMainController implements Initializable {
 
     }
 
-    void setFeatureName(String featureName, GridPane gridPane) {
+    void setFeatureName(String featureName, GridPane gridPane, Double value) {
+        DecimalFormat df = new DecimalFormat("#.##");
         FlowPane namePane = new FlowPane();
         namePane.setAlignment(Pos.CENTER);
         namePane.setMaxHeight(40);
         namePane.setMaxWidth(250);
-        Text name = new Text(featureName);
+        Text name = new Text(featureName + " " + Double.valueOf(df.format(value)));
         name.setFont(Font.font("Segoe UI", 20));
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
@@ -519,7 +505,7 @@ public class FXMLMainController implements Initializable {
         otherFeatures.setPrefWidth(250);
         otherFeatures.setPrefHeight(350);
 
-        String borderStyle = "-fx-border-color: white; -fx-border-width: 1; ";
+        String borderStyle = "-fx-border-color: white; -fx-border-width: 0 0 1 0; ";
         DecimalFormat df = new DecimalFormat("#.##");
 
 
@@ -534,7 +520,6 @@ public class FXMLMainController implements Initializable {
 
         FlowPane loudnessPane = new FlowPane();
         loudnessPane.setPrefHeight(otherFeatures.getPrefHeight() / 3);
-        loudnessPane.setStyle(borderStyle);
         loudnessPane.setAlignment(Pos.CENTER);
         Text loudnessText = new Text(Double.valueOf(df.format(loudness)) + " dB");
         loudnessText.setFont(Font.font("Segoe UI", FontWeight.BOLD, 25));
@@ -634,7 +619,6 @@ public class FXMLMainController implements Initializable {
         });
 
         API_Data.isPlaying.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
             setPlayImg(API_Data.isPlaying.getText().equals("true"));
         });
         artistsText.addEventHandler(KeyEvent.KEY_PRESSED, ev -> {

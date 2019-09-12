@@ -1,5 +1,6 @@
 package controllers;
 
+import helperClasses.MusicObject;
 import javafx.scene.control.Label;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -208,8 +209,8 @@ public class API_Data {
         }
     }
 
-    public static HashMap<String, String> getUserTopRanked(String type) {
-        HashMap<String, String> topRankedMap = new HashMap<String, String>();
+    public static ArrayList<MusicObject> getUserTopRanked(String type) {
+        ArrayList<MusicObject> topRankedList = new ArrayList<>();
         try {
             URL url = new URL("https://api.spotify.com/v1/me/top/" + type);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -234,24 +235,12 @@ public class API_Data {
                     JSONObject itemObj = (JSONObject) item;
                     String name = (String) itemObj.get("name");
                     String id = (String) itemObj.get("id");
+                    String artistsString = "";
                     if (type.equals("tracks")) {
-                        String artistsString = "";
                         JSONArray artists = (JSONArray) itemObj.get("artists");
-                        if (artists.size() > 0) {
-                            artistsString += " - ";
-                            for (int i = 0; i < artists.size(); i++) {
-                                JSONObject artistObj = (JSONObject) artists.get(i);
-                                String artistName = (String) artistObj.get("name");
-                                if (i == 0) {
-                                    artistsString += artistName;
-                                } else {
-                                    artistsString += ", " + artistName;
-                                }
-                            }
-                            name += artistsString;
-                        }
+                        artistsString = formArtistString(artists);
                     }
-                    topRankedMap.put(id, name);
+                    topRankedList.add(new MusicObject(id, name, artistsString));
                 });
             } else {
                 System.out.println("Status: " + status + " - Could not retrieve user top ranked data");
@@ -259,14 +248,13 @@ public class API_Data {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return topRankedMap;
+        return topRankedList;
     }
 
-    public static HashMap<String, String> getUserPlaylists() {
-        HashMap<String, String> map = new HashMap<String, String>();
+    public static ArrayList<MusicObject> getUserPlaylists() {
+        ArrayList<MusicObject> playlists = new ArrayList<>();
         try {
             URL url = new URL("https://api.spotify.com/v1/me/playlists");
-
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", "Bearer " + accessToken);
@@ -290,13 +278,13 @@ public class API_Data {
                     JSONObject item = (JSONObject) items.get(i);
                     String name = (String) item.get("name");
                     String id = (String) item.get("id");
-                    map.put(id, name);
+                    playlists.add(new MusicObject(id, name, ""));
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-        return map;
+        return playlists;
     }
 
     public static HashMap<String, String> getUser() {
@@ -342,7 +330,8 @@ public class API_Data {
         return userMap;
     }
 
-    public static HashMap<String, String> search(String query, String type) {
+    public static ArrayList<MusicObject> search(String query, String type) {
+        ArrayList<MusicObject> searchList = new ArrayList<>();
         StringBuilder tempQuery = new StringBuilder();
         char[] queryChars = query.toCharArray();
         for (char c : queryChars){
@@ -354,7 +343,6 @@ public class API_Data {
             }
         }
         String newQuery = tempQuery.toString();
-        HashMap<String, String> map = new HashMap<String, String>();
         try {
             URL url;
             if (type.equals("artists")) {
@@ -388,30 +376,41 @@ public class API_Data {
                     JSONObject item = (JSONObject) items.get(i);
                     String name = (String) item.get("name");
                     String id = (String) item.get("id");
+                    String artistsString = "";
                     if (type.equals("tracks")) {
-                        String artistName = "";
                         JSONArray artists  = (JSONArray) item.get("artists");
-                        if (artists.size() > 0) {
-                            JSONObject artist = (JSONObject) artists.get(0);
-                            artistName = " - " + (String) artist.get("name");
-                        }
-                        name = name + artistName;
+                        artistsString = formArtistString(artists);
+                        name += " - " + artistsString;
                     }
-
                     if (type.equals("playlists")) {
                         String ownerName = "";
                         JSONObject owner = (JSONObject) item.get("owner");
                         ownerName = " - " + (String) owner.get("display_name");
                         name = name + ownerName;
                     }
-
-                    map.put(id, name);
+                    searchList.add(new MusicObject(id, name, ""));
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-        return map;
+        return searchList;
+    }
+
+    private static String formArtistString(JSONArray artists) {
+        String artistsString = "";
+        if (artists.size() > 0) {
+            for (int i = 0; i < artists.size(); i++) {
+                JSONObject artistObj = (JSONObject) artists.get(i);
+                String artistName = (String) artistObj.get("name");
+                if (i == 0) {
+                    artistsString += artistName;
+                } else {
+                    artistsString += ", " + artistName;
+                }
+            }
+        }
+        return artistsString;
     }
 
     public static HashMap<String, String> getData(String id, String type){
@@ -420,8 +419,10 @@ public class API_Data {
             URL url;
             if (type.equals("artist")) {
                 url = new URL("https://api.spotify.com/v1/artists/" + id);
-            } else {
+            } else if (type.equals("playlist")){
                 url = new URL("https://api.spotify.com/v1/playlists/" + id);
+            } else {
+                url = new URL("https://api.spotify.com/v1/tracks/" + id);
             }
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
@@ -430,6 +431,8 @@ public class API_Data {
             con.setReadTimeout(5000);
             int status = con.getResponseCode();
             if (status == 200) {
+                String followers = "";
+                String artistsString = "";
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;
                 StringBuffer content = new StringBuffer();
@@ -440,9 +443,15 @@ public class API_Data {
                 String dataString = content.toString();
                 JSONParser parser = new JSONParser();
                 JSONObject response = (JSONObject) parser.parse(dataString);
-                JSONObject followerObj = (JSONObject) response.get("followers");
-                long followers = (Long) followerObj.get("total");
                 String name = (String ) response.get("name");
+                if (type.equals("track")) {
+                    JSONArray artists = (JSONArray) response.get("artists");
+                    response = (JSONObject) response.get("album");
+                    artistsString = formArtistString(artists);
+                } else {
+                    JSONObject followerObj = (JSONObject) response.get("followers");
+                    followers = Long.toString((Long) followerObj.get("total"));
+                }
                 JSONArray images = (JSONArray) response.get("images");
                 String imageUrl = "";
                 if (images.size() > 0) {
@@ -450,8 +459,9 @@ public class API_Data {
                     imageUrl = (String) image.get("url");
                 }
                 dataMap.put("name", name);
-                dataMap.put("followers", Long.toString(followers));
+                dataMap.put("followers", followers);
                 dataMap.put("imageUrl", imageUrl);
+                dataMap.put("artists", artistsString);
             } else {
                 System.out.println("Status: " + status + " - Could not retrieve " + type + " data for id: " + id);
             }
