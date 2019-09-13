@@ -46,6 +46,7 @@ public class FXMLMainController implements Initializable {
     private boolean controlsHidden = true;
     private boolean isPressed = false;
     private double x,y = 0;
+    private String[] timeList = {"4 weeks", "6 months", "All time"};
     private Image playPng = new Image(getClass().getResourceAsStream("../images/play.png"));
     private Image pausePng = new Image(getClass().getResourceAsStream("../images/pause.png"));
     private Image happyPng = new Image(getClass().getResourceAsStream("../images/happy.png"));
@@ -83,6 +84,7 @@ public class FXMLMainController implements Initializable {
     @FXML private Button playlistsBtn;
     @FXML private Text userFollowers;
     @FXML private ImageView playImg;
+    @FXML private ChoiceBox timePicker;
 
     @FXML
     void mousePressed(MouseEvent event){
@@ -173,6 +175,10 @@ public class FXMLMainController implements Initializable {
     }
 
     void fillMeScene() {
+        while (meGrid.getChildren().size() != 0) {
+            meGrid.getChildren().remove(0);
+        }
+        API_Data.timeFrame = (String) timePicker.getValue();
         HashMap<String, String> userMap = API_Data.getUser();
         ArrayList<MusicObject> userTopRankedArtists = API_Data.getUserTopRanked("artists");
         ArrayList<MusicObject> userTopRankedTracks = API_Data.getUserTopRanked("tracks");
@@ -689,5 +695,13 @@ public class FXMLMainController implements Initializable {
         });
         artistsScroll.setFitToWidth(true);
         artistsBtn.setStyle("-fx-border-color: #22b244; -fx-border-width: 0 0 0 3; ");
+        timePicker.getItems().addAll(timeList);
+        timePicker.setValue(timeList[0]);
+        timePicker.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                fillMeScene();
+            }
+        });
     }
 }

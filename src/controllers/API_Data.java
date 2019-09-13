@@ -37,6 +37,7 @@ public class API_Data {
     public static Label mainScene = new Label();
     public static Label progressOfSong = new Label();
     public static Label isPlaying = new Label();
+    public static String timeFrame = "6 months";
 
 
     public static int requestAccessToken(){
@@ -209,10 +210,33 @@ public class API_Data {
         }
     }
 
+    private static String getTimeFrame() {
+        String time = "medium_term";
+
+        switch (timeFrame) {
+            case "4 weeks": {
+                time = "short_term";
+                break;
+            }
+            case "6 months": {
+                time = "medium_term";
+                break;
+            }
+            case "All time": {
+                time = "long_term";
+                break;
+            }
+            default: {
+                System.out.println("Invalid time frame: " + timeFrame);
+            }
+        }
+        return time;
+    }
+
     public static ArrayList<MusicObject> getUserTopRanked(String type) {
         ArrayList<MusicObject> topRankedList = new ArrayList<>();
         try {
-            URL url = new URL("https://api.spotify.com/v1/me/top/" + type);
+            URL url = new URL("https://api.spotify.com/v1/me/top/" + type + "?time_range=" + getTimeFrame());
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", "Bearer " + accessToken);
