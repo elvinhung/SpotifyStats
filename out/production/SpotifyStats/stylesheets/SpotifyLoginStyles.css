@@ -62,13 +62,13 @@
 }
 
 #loginButton {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-background-color: #22b244;
     -fx-background-radius:20;
 }
 
 #loginButton:hover {
-    -fx-text-fill: white;
+    -fx-background-color: #26c74c;
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-scale-z: 1.05;

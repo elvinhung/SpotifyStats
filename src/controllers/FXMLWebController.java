@@ -69,6 +69,7 @@ public class FXMLWebController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        webView.getEngine().setUserAgent("use required / intended UA string");
         webView.setVisible(false);
         webView.getEngine().load(API_Data.accessURL);
         webView.setZoom(0.8);

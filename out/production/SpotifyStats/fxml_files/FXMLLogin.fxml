@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #1e2329;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLLoginController">
+<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2a436e;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FXMLLoginController">
    <top>
       <HBox alignment="CENTER_RIGHT" minWidth="400.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="29.0" prefWidth="800.0" spacing="3.0" style="-fx-background-color: #13161a; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);" BorderPane.alignment="CENTER">
          <children>

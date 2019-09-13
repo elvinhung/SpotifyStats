@@ -48,6 +48,10 @@ public class FXMLMainController implements Initializable {
     private double x,y = 0;
     private Image playPng = new Image(getClass().getResourceAsStream("../images/play.png"));
     private Image pausePng = new Image(getClass().getResourceAsStream("../images/pause.png"));
+    private Image happyPng = new Image(getClass().getResourceAsStream("../images/happy.png"));
+    private Image energyPng = new Image(getClass().getResourceAsStream("../images/energy.png"));
+    private Image instrumentPng = new Image(getClass().getResourceAsStream("../images/instrument.png"));
+    private Image dancePng = new Image(getClass().getResourceAsStream("../images/dance.png"));
     @FXML private ProgressBar progressBar;
     @FXML private Slider slider;
     @FXML private StackPane detector;
@@ -420,7 +424,7 @@ public class FXMLMainController implements Initializable {
         HBox chart = new HBox();
         chart.setMinWidth(250);
         chart.setAlignment(Pos.CENTER);
-        chart.setSpacing(5);
+        chart.setSpacing(10);
         for (String featureName: mapOfFeatures.keySet()) {
             if (!featureName.equals("tempo") && !featureName.equals("loudness")) {
                 VBox featureVBox = new VBox();
@@ -429,9 +433,9 @@ public class FXMLMainController implements Initializable {
                 featureVBox.setMinHeight(220);
                 GridPane barPane = new GridPane();
                 barPane.setAlignment(Pos.CENTER);
-                Rectangle fullBar = new Rectangle(40, 200);
+                Rectangle fullBar = new Rectangle(40, 190);
                 fullBar.setFill(Color.TRANSPARENT);
-                Rectangle bar = new Rectangle(40, 200 * mapOfFeatures.get(featureName));
+                Rectangle bar = new Rectangle(40, 190 * mapOfFeatures.get(featureName));
                 fullBar.setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -446,17 +450,19 @@ public class FXMLMainController implements Initializable {
                     }
                 });
                 //bar.setFill(Color.color(.325, .969, .549));
-                bar.setFill(Color.color(1.0, .522, .18));
+                bar.setFill(Color.color(1.0, .6, .251));
                 barPane.add(bar, 0, 0);
                 barPane.add(fullBar, 0, 0);
                 GridPane.setValignment(bar, VPos.BOTTOM);
                 featureVBox.getChildren().add(barPane);
                 FlowPane iconPane = new FlowPane();
-                iconPane.setMaxWidth(50);
+                iconPane.setMaxWidth(20);
+                iconPane.setMaxHeight(20);
+                iconPane.setMinWidth(20);
+                iconPane.setMinHeight(20);
                 iconPane.setAlignment(Pos.CENTER);
-                Label test = new Label("test");
-                test.setTextFill(Color.WHITE);
-                iconPane.getChildren().add(test);
+                ImageView icon = getIcon(featureName);
+                iconPane.getChildren().add(icon);
                 featureVBox.getChildren().add(iconPane);
                 chart.getChildren().add(featureVBox);
             }
@@ -477,7 +483,7 @@ public class FXMLMainController implements Initializable {
         HBox featureHBox = new HBox();
         featureHBox.setAlignment(Pos.CENTER);
         featureHBox.setSpacing(20);
-        featureHBox.setPadding(new Insets(80,10,10,10));
+        featureHBox.setPadding(new Insets(70,10,10,10));
         featureHBox.getChildren().add(featurePane);
         featureHBox.getChildren().add(otherFeatures);
 
@@ -486,16 +492,52 @@ public class FXMLMainController implements Initializable {
 
     }
 
+    ImageView getIcon(String name) {
+        ImageView icon = new ImageView();
+        icon.setFitHeight(15);
+        icon.setFitWidth(15);
+
+        switch (name) {
+            case "danceability": {
+                icon.setImage(dancePng);
+                break;
+            }
+            case "energy": {
+                icon.setImage(energyPng);
+                break;
+            }
+            case "valence": {
+                icon.setImage(happyPng);
+                break;
+            }
+            case "instrumentalness": {
+                icon.setImage(instrumentPng);
+                break;
+            }
+            default: {
+                System.out.println(name + " did not match any of the icons");
+            }
+        }
+
+        return icon;
+    }
+
     void setFeatureName(String featureName, GridPane gridPane, Double value) {
         DecimalFormat df = new DecimalFormat("#.##");
         FlowPane namePane = new FlowPane();
         namePane.setAlignment(Pos.CENTER);
         namePane.setMaxHeight(40);
         namePane.setMaxWidth(250);
-        Text name = new Text(featureName + " " + Double.valueOf(df.format(value)));
+
+        Text name = new Text(featureName + " ");
         name.setFont(Font.font("Segoe UI", 20));
         name.setFill(Color.WHITE);
-        namePane.getChildren().add(name);
+
+        Text valueText = new Text("" + Double.valueOf(df.format(value)));
+        valueText.setFont(Font.font("Segoe UI", 20));
+        valueText.setFill(Color.color(.325, .969, .549));
+
+        namePane.getChildren().addAll(name, valueText);
         gridPane.getChildren().remove(1);
         gridPane.add(namePane, 0, 1);
     }
@@ -513,18 +555,24 @@ public class FXMLMainController implements Initializable {
         tempoPane.setPrefHeight(otherFeatures.getPrefHeight() / 3);
         tempoPane.setStyle(borderStyle);
         tempoPane.setAlignment(Pos.CENTER);
-        Text tempoText = new Text(Double.valueOf(df.format(tempo)) + " BPM");
+        Text tempoText = new Text(Double.valueOf(df.format(tempo)) + " ");
         tempoText.setFont(Font.font("Segoe UI", FontWeight.BOLD,25));
         tempoText.setFill(Color.WHITE);
-        tempoPane.getChildren().add(tempoText);
+        Text bpmText = new Text("BPM");
+        bpmText.setFont(Font.font("Segoe UI", FontWeight.BOLD,25));
+        bpmText.setFill(Color.color(.361, .843, .929));
+        tempoPane.getChildren().addAll(tempoText, bpmText);
 
         FlowPane loudnessPane = new FlowPane();
         loudnessPane.setPrefHeight(otherFeatures.getPrefHeight() / 3);
         loudnessPane.setAlignment(Pos.CENTER);
-        Text loudnessText = new Text(Double.valueOf(df.format(loudness)) + " dB");
+        Text loudnessText = new Text(Double.valueOf(df.format(loudness)) + " ");
         loudnessText.setFont(Font.font("Segoe UI", FontWeight.BOLD, 25));
         loudnessText.setFill(Color.WHITE);
-        loudnessPane.getChildren().add(loudnessText);
+        Text dbText = new Text("dB");
+        dbText.setFont(Font.font("Segoe UI", FontWeight.BOLD,25));
+        dbText.setFill(Color.color(.361, .843, .929));
+        loudnessPane.getChildren().addAll(loudnessText, dbText);
 
         otherFeatures.getChildren().addAll(tempoPane, loudnessPane);
 
