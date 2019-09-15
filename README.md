@@ -6,6 +6,12 @@ Built using JavaFX and the Spotify Web API
 
 Spotify Stats is a desktop app that allows users to see data from the Spotify Web API that isn't readily available on the regular Spotify application. Users can see audio features for artists, tracks, and playlists. These audio features include danceablity, energy, instrumentalness, valence, tempo, and loudness of a track. Users can view their top ranked artists and tracks over a chosen length of time. This application also includes playback controls that allow the user to play, pause, skip, and seek through songs.
 
+## Usage
+
+Download and run SpotifyStats jar file
+Known Issues: Styling is not supported for maximizing window
+[Download jar file](https://github.com/elvinhung/SpotifyStats/raw/master/out/artifacts/SpotifyStats_jar/SpotifyStats.jar)
+
 ## Images
 
 ### Login Screens
