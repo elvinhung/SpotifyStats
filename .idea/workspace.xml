@@ -7,12 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f72a065-c12f-4069-9a0c-16c7905baa67" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/SpotifyStats_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLLoginController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLLoginController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/FXMLLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/FXMLLoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/FXMLMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/FXMLMainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/SpotifyStats/SpotifyStats.jar" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -125,7 +120,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/FXMLMainController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="523">
@@ -142,7 +137,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyLoginStyles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1440">
+            <state relative-caret-position="704">
               <caret line="96" selection-start-line="96" selection-end-line="96" />
             </state>
           </provider>
@@ -157,7 +152,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyStyles.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3120">
@@ -355,7 +350,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568523614783" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568523866821" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Critters2" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -421,18 +416,17 @@
       <workItem from="1567535595310" duration="41735000" />
       <workItem from="1568159861327" duration="2947000" />
       <workItem from="1568223559506" duration="25633000" />
-      <workItem from="1568386547737" duration="3172000" />
+      <workItem from="1568386547737" duration="3370000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="187564000" />
+    <option name="totallyTimeSpent" value="187762000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="973" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16632302" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16632302" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -632,24 +626,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyLoginStyles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="96" selection-start-line="96" selection-end-line="96" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/controllers/CurrentPlaybackState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyStyles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3120">
-          <caret line="208" column="21" selection-start-line="208" selection-start-column="21" selection-end-line="208" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -710,6 +690,20 @@
             <element signature="e#27145#27146#0" expanded="true" />
             <element signature="e#27190#27191#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyLoginStyles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="96" selection-start-line="96" selection-end-line="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyStyles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3120">
+          <caret line="208" column="21" selection-start-line="208" selection-start-column="21" selection-end-line="208" selection-end-column="21" />
         </state>
       </provider>
     </entry>
