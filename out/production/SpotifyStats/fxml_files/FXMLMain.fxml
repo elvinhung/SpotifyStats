@@ -198,7 +198,7 @@
                         </HBox>
                      </children>
                   </GridPane>
-                  <GridPane fx:id="artistScene" prefHeight="402.0" prefWidth="783.0" style="-fx-background-color: transparent;" visible="false">
+                  <GridPane fx:id="artistScene" prefHeight="402.0" prefWidth="783.0" style="-fx-background-color: transparent;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
@@ -302,7 +302,7 @@
                         </HBox>
                      </children>
                   </GridPane>
-                  <GridPane fx:id="meScene" layoutX="10.0" layoutY="10.0" prefHeight="381.0" prefWidth="646.0">
+                  <GridPane fx:id="meScene" layoutX="10.0" layoutY="10.0" prefHeight="381.0" prefWidth="646.0" visible="false">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>

@@ -3,23 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5f72a065-c12f-4069-9a0c-16c7905baa67" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/controllers/FXMLMainController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/fxml_files/FXMLMain.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/fxml_files/FXMLMain.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SpotifyStats/stylesheets/SpotifyLoginStyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SpotifyStats/stylesheets/SpotifyLoginStyles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/API_Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/API_Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/FXMLMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/FXMLMainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fxml_files/FXMLMain.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fxml_files/FXMLMain.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stylesheets/SpotifyStyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/stylesheets/SpotifyStyles.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,9 +27,10 @@
           <entry key="project.open.time.41" value="1" />
           <entry key="project.open.time.46" value="2" />
           <entry key="project.open.time.53" value="1" />
+          <entry key="project.open.time.73" value="1" />
           <entry key="project.open.time.75" value="1" />
           <entry key="project.open.time.78" value="1" />
-          <entry key="project.opened" value="14" />
+          <entry key="project.opened" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -86,11 +71,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Loader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" selection-start-line="30" selection-end-line="30" />
+            <state relative-caret-position="480">
+              <caret line="32" column="27" lean-forward="true" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -101,7 +86,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/FXMLLoginController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="915">
               <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
             </state>
           </provider>
@@ -110,8 +95,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/FXMLWebController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="89" column="41" lean-forward="true" selection-start-line="89" selection-start-column="41" selection-end-line="89" selection-end-column="41" />
+            <state relative-caret-position="1095">
+              <caret line="89" column="41" selection-start-line="89" selection-start-column="41" selection-end-line="89" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -123,25 +108,19 @@
         <entry file="file://$PROJECT_DIR$/src/fxml_files/FXMLMain.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
+            <state relative-caret-position="5280">
               <caret line="352" column="60" selection-start-line="352" selection-start-column="60" selection-end-line="352" selection-end-column="60" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/FXMLMainController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="567">
+            <state relative-caret-position="629">
               <caret line="702" column="30" selection-start-line="702" selection-start-column="30" selection-end-line="702" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3640#3641#0" expanded="true" />
-                <element signature="e#3691#3692#0" expanded="true" />
-                <element signature="e#3719#3720#0" expanded="true" />
-                <element signature="e#3774#3775#0" expanded="true" />
-                <element signature="e#18367#18368#0" expanded="true" />
-                <element signature="e#18451#18452#0" expanded="true" />
                 <element signature="e#27145#27146#0" expanded="true" />
                 <element signature="e#27190#27191#0" expanded="true" />
               </folding>
@@ -152,8 +131,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyLoginStyles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="568">
-              <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
+            <state relative-caret-position="1440">
+              <caret line="96" selection-start-line="96" selection-end-line="96" />
             </state>
           </provider>
         </entry>
@@ -170,7 +149,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyStyles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
+            <state relative-caret-position="3120">
               <caret line="208" column="21" selection-start-line="208" selection-start-column="21" selection-end-line="208" selection-end-column="21" />
             </state>
           </provider>
@@ -179,7 +158,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/API_Data.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-513">
+            <state relative-caret-position="6405">
               <caret line="482" column="57" selection-start-line="482" selection-start-column="57" selection-end-line="482" selection-end-column="57" />
               <folding>
                 <element signature="method#getUser#0;class#API_Data#0" />
@@ -301,9 +280,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -347,7 +326,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568352738638" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568518444801" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Critters2" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -412,18 +391,19 @@
       <workItem from="1567094883704" duration="18043000" />
       <workItem from="1567535595310" duration="41735000" />
       <workItem from="1568159861327" duration="2947000" />
-      <workItem from="1568223559506" duration="24946000" />
+      <workItem from="1568223559506" duration="25633000" />
+      <workItem from="1568386547737" duration="1797000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="183705000" />
+    <option name="totallyTimeSpent" value="186189000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="973" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16426116" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16632302" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -529,10 +509,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
           <caret line="1564" column="5" lean-forward="true" selection-start-line="1564" selection-start-column="5" selection-end-line="1564" selection-end-column="5" />
-          <folding>
-            <element signature="e#64351#64352#0" expanded="true" />
-            <element signature="e#64395#64396#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -547,10 +523,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret line="382" column="24" lean-forward="true" selection-start-line="382" selection-start-column="24" selection-end-line="382" selection-end-column="24" />
-          <folding>
-            <element signature="e#8592#8593#0" expanded="true" />
-            <element signature="e#8615#8616#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -579,10 +551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-9">
           <caret line="151" column="62" lean-forward="true" selection-start-line="151" selection-start-column="62" selection-end-line="151" selection-end-column="62" />
-          <folding>
-            <element signature="e#7439#7440#0" expanded="true" />
-            <element signature="e#7492#7493#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -604,19 +572,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Loader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -627,17 +582,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/helperClasses.java">
+    <entry file="file://$PROJECT_DIR$/src/helperClasses.java" />
+    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLLoginController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="26" selection-start-column="26" selection-end-column="26" />
+        <state relative-caret-position="915">
+          <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/helperClasses/MusicObject.java">
+    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLWebController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+        <state relative-caret-position="1095">
+          <caret line="89" column="41" selection-start-line="89" selection-start-column="41" selection-end-line="89" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fxml_files/FXMLMain.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5280">
+          <caret line="352" column="60" selection-start-line="352" selection-start-column="60" selection-end-line="352" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyLoginStyles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="96" selection-start-line="96" selection-end-line="96" />
         </state>
       </provider>
     </entry>
@@ -648,41 +622,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLLoginController.java">
+    <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyStyles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLWebController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="89" column="41" lean-forward="true" selection-start-line="89" selection-start-column="41" selection-end-line="89" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fxml_files/FXMLMain.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="352" column="60" selection-start-line="352" selection-start-column="60" selection-end-line="352" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyLoginStyles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
+        <state relative-caret-position="3120">
+          <caret line="208" column="21" selection-start-line="208" selection-start-column="21" selection-end-line="208" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/controllers/API_Data.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-513">
+        <state relative-caret-position="6405">
           <caret line="482" column="57" selection-start-line="482" selection-start-column="57" selection-end-line="482" selection-end-column="57" />
           <folding>
             <element signature="method#getUser#0;class#API_Data#0" />
@@ -691,27 +640,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stylesheets/SpotifyStyles.css">
+    <entry file="file://$PROJECT_DIR$/src/helperClasses/MusicObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="208" column="21" selection-start-line="208" selection-start-column="21" selection-end-line="208" selection-end-column="21" />
+        <state relative-caret-position="195">
+          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/controllers/FXMLMainController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
+        <state relative-caret-position="629">
           <caret line="702" column="30" selection-start-line="702" selection-start-column="30" selection-end-line="702" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3640#3641#0" expanded="true" />
-            <element signature="e#3691#3692#0" expanded="true" />
-            <element signature="e#3719#3720#0" expanded="true" />
-            <element signature="e#3774#3775#0" expanded="true" />
-            <element signature="e#18367#18368#0" expanded="true" />
-            <element signature="e#18451#18452#0" expanded="true" />
             <element signature="e#27145#27146#0" expanded="true" />
             <element signature="e#27190#27191#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Loader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="27" lean-forward="true" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
