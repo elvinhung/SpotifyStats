@@ -15,7 +15,6 @@ Spotify Stats is a desktop app that allows users to see data from the Spotify We
 
 ### Personal Scene w/ Playlists and Top Ranked Artists & Tracks
 
-https://drive.google.com/uc?export=view&id=
 ![top artists](https://drive.google.com/uc?export=view&id=1Td69gRnlhfWRxOW8-hnl7qJB6gSeXT4o)
 ![top tracks](https://drive.google.com/uc?export=view&id=1PohCZDR_W1qvT5xcvG7dE4lieLovBRC7)
 ![playlists](https://drive.google.com/uc?export=view&id=1hgNJcBw8yBAZDMR3CCPmXykCQpBeVmiL)
