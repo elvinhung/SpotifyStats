@@ -74,9 +74,9 @@ public class FXMLLoginController implements Initializable {
                     loginFailed.setVisible(false);
                     Stage thisStage = (Stage)((Node) event.getSource()).getScene().getWindow();
                     Stage stage = new Stage();
-                    Parent root = FXMLLoader.load(getClass().getResource("../fxml_files/FXMLWebEngine.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/fxml_files/FXMLWebEngine.fxml"));
                     Scene scene = new Scene(root);
-                    scene.getStylesheets().add(getClass().getResource("../stylesheets/SpotifyWebEngineStyles.css").toExternalForm());
+                    scene.getStylesheets().add(getClass().getResource("/stylesheets/SpotifyWebEngineStyles.css").toExternalForm());
                     stage.setScene(scene);
                     stage.setY(thisStage.getY() + 35);
                     stage.setX(thisStage.getX() + 35);
@@ -107,9 +107,9 @@ public class FXMLLoginController implements Initializable {
         API_Data.mainScene.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 Stage stage = (Stage) loginButton.getScene().getWindow();
-                Parent mainScene = FXMLLoader.load(getClass().getResource("../fxml_files/FXMLMain.fxml"));
+                Parent mainScene = FXMLLoader.load(getClass().getResource("/fxml_files/FXMLMain.fxml"));
                 Scene scene = new Scene(mainScene);
-                scene.getStylesheets().add(getClass().getResource("../stylesheets/SpotifyStyles.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource("/stylesheets/SpotifyStyles.css").toExternalForm());
                 stage.setScene(scene);
             }
             catch (Exception e){

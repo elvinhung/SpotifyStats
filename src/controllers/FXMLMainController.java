@@ -47,12 +47,12 @@ public class FXMLMainController implements Initializable {
     private boolean isPressed = false;
     private double x,y = 0;
     private String[] timeList = {"4 weeks", "6 months", "All time"};
-    private Image playPng = new Image(getClass().getResourceAsStream("../images/play.png"));
-    private Image pausePng = new Image(getClass().getResourceAsStream("../images/pause.png"));
-    private Image happyPng = new Image(getClass().getResourceAsStream("../images/happy.png"));
-    private Image energyPng = new Image(getClass().getResourceAsStream("../images/energy.png"));
-    private Image instrumentPng = new Image(getClass().getResourceAsStream("../images/instrument.png"));
-    private Image dancePng = new Image(getClass().getResourceAsStream("../images/dance.png"));
+    private Image playPng = new Image(getClass().getResourceAsStream("/images/play.png"));
+    private Image pausePng = new Image(getClass().getResourceAsStream("/images/pause.png"));
+    private Image happyPng = new Image(getClass().getResourceAsStream("/images/happy.png"));
+    private Image energyPng = new Image(getClass().getResourceAsStream("/images/energy.png"));
+    private Image instrumentPng = new Image(getClass().getResourceAsStream("/images/instrument.png"));
+    private Image dancePng = new Image(getClass().getResourceAsStream("/images/dance.png"));
     @FXML private ProgressBar progressBar;
     @FXML private Slider slider;
     @FXML private StackPane detector;
