@@ -9,7 +9,10 @@ Spotify Stats is a desktop app that allows users to see data from the Spotify We
 ## Usage
 
 Download and run SpotifyStats jar file
+
 Known Issues: Styling is not supported for maximizing window
+
+
 [Download jar file](https://github.com/elvinhung/SpotifyStats/raw/master/out/artifacts/SpotifyStats_jar/SpotifyStats.jar)
 
 ## Images
